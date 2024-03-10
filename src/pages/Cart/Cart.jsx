@@ -1,5 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import bag from "../../assets/Cart.png";
 import { useNavigate } from "react-router-dom";
 import logo from "../../assets/logo.png";
@@ -8,11 +8,20 @@ import CloseIcon from "@mui/icons-material/Close";
 import SizeModal from "../../components/modal/SizeModal";
 import QuantityModal from "../../components/modal/QuantityModal";
 import ArrowDropDownRoundedIcon from "@mui/icons-material/ArrowDropDownRounded";
-const Cart = () => {
+import RemoveModal from "../../components/modal/RemoveModal";
+
+const Cart = ({ setProgress }) => {
   const [data, setData] = useState(true);
   const navigate = useNavigate();
   const [sizeModal, setSizeModal] = useState(false);
   const [qtyModal, setQtyModal] = useState(false);
+  const [removeModal, setRemoveModal] = useState(false);
+  useEffect(() => {
+    setProgress(40);
+    setTimeout(() => {
+      setProgress(100);
+    }, 1500);
+  }, []);
 
   return (
     <>
@@ -63,7 +72,10 @@ const Cart = () => {
                   </p>
                 </div>
                 <div className="h-[173px] w-[594px] border-2 border-[#f5f5f6] mt-3 rounded-sm relative">
-                  <div className="absolute top-0 right-0 mr-2 mt-2 cursor-pointer">
+                  <div
+                    className="absolute top-0 right-0 mr-2 mt-2 cursor-pointer"
+                    onClick={() => setRemoveModal(true)}
+                  >
                     {" "}
                     <CloseIcon className="text-[#a1a2a8]" />
                   </div>
@@ -196,6 +208,11 @@ const Cart = () => {
             <SizeModal setSizeModal={setSizeModal} />
           </div>
           {qtyModal ? <QuantityModal setQtyModal={setQtyModal} /> : <></>}
+          {removeModal ? (
+            <RemoveModal setRemoveModal={setRemoveModal} />
+          ) : (
+            <></>
+          )}
         </>
       ) : (
         <>

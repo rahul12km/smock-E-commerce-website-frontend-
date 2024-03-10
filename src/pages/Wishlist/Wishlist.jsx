@@ -1,9 +1,15 @@
 /* eslint-disable react/no-unescaped-entities */
-import React from "react";
+import React, { useEffect } from "react";
 import Navbar from "../../components/Navbar/Navbar";
 import CloseIcon from "@mui/icons-material/Close";
-
-const Wishlist = () => {
+useEffect
+const Wishlist = ({setProgress}) => {
+  useEffect(() => {
+    setProgress(40);
+    setTimeout(() => {
+      setProgress(100);
+    }, 1500);
+  }, []);
   return (
     <div className="container">
       <Navbar />

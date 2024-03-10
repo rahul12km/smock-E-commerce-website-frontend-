@@ -16,7 +16,7 @@ import MenOption from "../../components/DropOptions/MenOption";
 function Home() {
   return (
     <div>
-      <Navbar />
+      {/* <Navbar /> */}
       <Herobanner />
       <Banner />
       <Carousel />

@@ -49,7 +49,7 @@ const Layout = () => {
 
   return (
     <div className="main-box flex flex-col">
-      <Navbar />
+      {/* <Navbar /> */}
 
       <div className="flex flex-row  justify-end py-3 mr-[50px]">
         <div className="flex flex-col relative">

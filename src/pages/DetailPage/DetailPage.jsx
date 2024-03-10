@@ -1,11 +1,17 @@
 /* eslint-disable react/no-unescaped-entities */
-import React from "react";
+import React, { useEffect } from "react";
 import Navbar from "../../components/Navbar/Navbar";
 
-const DetailPage = () => {
+const DetailPage = ({ setProgress }) => {
+  useEffect(() => {
+    setProgress(40);
+    setTimeout(() => {
+      setProgress(100);
+    }, 1500);
+  }, []);
   return (
     <div className="container  ">
-      <Navbar />
+      {/* <Navbar /> */}
 
       <div className=" product-image  flex flex-row pl-5 gap-2 mt-[50px]">
         <img

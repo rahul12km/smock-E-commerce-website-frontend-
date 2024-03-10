@@ -10,20 +10,46 @@ import Cart from "./pages/Cart/Cart";
 import Wishlist from "./pages/WIshlist/Wishlist";
 import SizeModal from "./components/modal/SizeModal";
 import QuantityModal from "./components/modal/QuantityModal";
+import RemoveModal from "./components/modal/RemoveModal";
+import LoadingBar from "react-top-loading-bar";
+import Navbar from "./components/Navbar/Navbar";
+import CustomNavbar from "./components/CustomNavbar/CustomNavbar";
 
 function App() {
+  const [progress, setProgress] = useState(0);
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/men" element={<Men />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/details" element={<DetailPage />} />
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/wishlist" element={<Wishlist />} />
-        <Route path="/qty" element={<QuantityModal />} />
-      </Routes>
-    </Router>
+    <>
+      <Router>
+        <LoadingBar
+          color="#5a49e3"
+          progress={progress}
+          height={3.5}
+          onLoaderFinished={() => setProgress(0)}
+        />
+        <Routes>
+          <Route path="/" element={<CustomNavbar />}>
+            <Route index element={<Home />} />
+            <Route path="men" element={<Men setProgress={setProgress} />} />
+          </Route>
+          <Route>
+            <Route
+              path="/login"
+              element={<Login setProgress={setProgress} />}
+            />
+            <Route
+              path="/details"
+              element={<DetailPage setProgress={setProgress} />}
+            />
+
+            <Route path="/cart" element={<Cart setProgress={setProgress} />} />
+            <Route
+              path="/wishlist"
+              element={<Wishlist setProgress={setProgress} />}
+            />
+          </Route>
+        </Routes>
+      </Router>
+    </>
   );
 }
 
