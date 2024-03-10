@@ -112,6 +112,7 @@ const Layout = () => {
             ></div>
           </div>
           {/*--------------------------------------------------- COLOR------------------------------------------------------------------------ */}
+
           <div className="flex flex-col mx-3 border-b-[1px] border-gray-400 ">
             <div
               className="w-[250px] h-[40px] bg-white  flex justify-between py-7"
@@ -135,6 +136,7 @@ const Layout = () => {
             ></div>
           </div>
           {/*----------------------------------------------------------- size-------------------------------------------------------------------------- */}
+
           <div className="flex flex-col mx-3 border-b-[1px] border-gray-400 ">
             <div
               className="w-[250px] h-[40px] bg-white  flex justify-between py-7"
@@ -187,18 +189,15 @@ const Layout = () => {
         <div className="content-box px-[50px] py-5 w-full h-full">
           <div className="item-cards grid grid-cols-4  gap-x-7 gap-y-10 ">
             {nums.map((num, i) => (
-              <div
-                key={i}
-                className="item-card flex flex-col group "
-                onClick={() => {
-                  navigate("/details");
-                }}
-              >
+              <div key={i} className="item-card flex flex-col group ">
                 <div className="img-box h-[300px] relative overflow-hidden ">
                   <img
                     src={imgSource}
                     alt="Loading"
                     className="h-full w-full object-cover"
+                    onClick={() => {
+                      navigate("/details");
+                    }}
                   />
                   <div className=" absolute flex bg-white bottom-[-20%] border-t-[1px] border-b-[1px] border-[#5a49e3] w-full h-[40px]  transition-transform duration-[400ms] transform group-hover:translate-y-[-150%]">
                     <div
@@ -223,7 +222,12 @@ const Layout = () => {
                     </div>
                   </div>
                 </div>
-                <div className="price-box h-[75px] bg-gray-100 pl-3 pt-2">
+                <div
+                  className="price-box h-[75px] bg-gray-100 pl-3 pt-2"
+                  onClick={() => {
+                    navigate("/details");
+                  }}
+                >
                   <h3 className="text-[15px] font-bold">Brand Name</h3>
                   <p className="text-[13px] text-[#535665]">Slim Fit T Shirt</p>
                   <p className="text-[14px] font-bold">Rs 500</p>

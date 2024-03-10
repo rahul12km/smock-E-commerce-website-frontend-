@@ -10,6 +10,7 @@ import SalesOption from "../DropOptions/SalesOption";
 import { useNavigate } from "react-router-dom";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
+import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 
 function Navbar() {
   const [option, setOption] = useState("");
@@ -21,8 +22,8 @@ function Navbar() {
 
       <header className=" h-[70px] sticky top-0 z-20 bg-white shadow-md  hover:shadow-lg">
         <nav className="flex flex-row w-[100%]  h-[70px] ">
-          <div className=" w-40 h-40 p-5">
-            <img src={logo} alt="logo" className="" />
+          <div className=" w-40 p-5 my-auto  cursor-pointer">
+            <img src={logo} alt="logo" onClick={() => navigate("/")} />
           </div>
 
           <div className="">
@@ -78,13 +79,25 @@ function Navbar() {
 
           <div className=" flex flex-grow justify-end gap-2 pt-[3px]">
             <ul className=" flex flex-row gap-5 pt-3  pr-10">
-              <li className="hover:text-gray-500 text-[12px] flex flex-col cursor-pointer">
+              <li className="hover:text-gray-500 text-[12px] flex flex-col  items-center cursor-pointer">
+                {" "}
                 <PersonOutlineIcon />
                 Profile
               </li>
               <li
-                className="hover:text-gray-500 text-[12px] flex flex-col cursor-pointer"
-                onClick={navigate("/cart")}
+                className="hover:text-gray-500 text-[12px] flex flex-col items-center cursor-pointer"
+                onClick={() => {
+                  navigate("/wishlist");
+                }}
+              >
+                <FavoriteBorderOutlinedIcon />
+                Wishlist
+              </li>
+              <li
+                className="hover:text-gray-500 text-[12px] flex flex-col  items-center cursor-pointer"
+                onClick={() => {
+                  navigate("/cart");
+                }}
               >
                 <ShoppingCartOutlinedIcon />
                 Cart
@@ -169,7 +182,7 @@ function Navbar() {
           onMouseEnter={() => setOption("")}
         >
           <div className="w-full h-full absolute inset-0 bg-black opacity-50  z-[-1]">
-            {/* kuch to hai */}
+            {/*kuch to hai*/}
           </div>
           <div className="absolute left-[44.85%]">
             <SalesOption setOption={setOption} />

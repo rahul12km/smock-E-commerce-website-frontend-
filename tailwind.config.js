@@ -7,6 +7,7 @@ export default {
       fontFamily: {
         sans: ["Open Sans", "sans-serif"],
         pop: ["Poppins", "sans-serif"],
+        assist: ["Assistant", "arial"],
       },
       keyframes: {
         shake: {

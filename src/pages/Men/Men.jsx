@@ -5,7 +5,6 @@ const Men = () => {
   return (
     <div>
       <Layout />
-      
     </div>
   );
 };

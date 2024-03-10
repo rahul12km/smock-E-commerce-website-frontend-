@@ -47,14 +47,14 @@ const DetailPage = () => {
           </p>
 
           <p className="font-bold text-[16px] mt-3 mb-2">SELECT SIZE</p>
-          <div className="flex flex-row gap-3 cursor-pointer ">
+          <div className="flex flex-row gap-3 cursor-pointer font-bold">
             <p className="w-[30px] h-[30px] bg-[#f5f5f6] text-[#8B8BA3] p-2 rounded-full  flex items-center justify-center  hover:text-black  ">
               S
             </p>
             <p className="w-[30px] h-[30px] bg-[#f5f5f6] text-[#8B8BA3] p-2 rounded-full flex items-center justify-center hover:text-black  ">
               M
             </p>
-            <p className="w-[30px] h-[30px] bg-[#f5f5f6] text-[#8B8BA3] p-2 rounded-full flex items-center justify-center   hover:text-black">
+            <p className="w-[30px] h-[30px] bg-[#f5f5f6] text-[#8B8BA3] p-2 rounded-full flex items-center justify-center   hover:text-black ">
               L
             </p>
             <p className="w-[30px] h-[30px] bg-[#f5f5f6] text-[#8B8BA3] p-2 rounded-full flex items-center justify-center hover:text-black ">
@@ -70,6 +70,7 @@ const DetailPage = () => {
               Wishlist
             </button>
           </div>
+
           <div className="flex flex-col mt-3 ">
             <p className="font-bold text-[16px] mb-3">DELIVERY OPTIONS</p>
 
@@ -79,6 +80,7 @@ const DetailPage = () => {
                 placeholder="Enter Pincode"
                 className="h-[42.4px] w-[250px] rounded-md border-2 border-[#d4d5d9] p-2 outline-none"
               />
+
               <button
                 type="button"
                 className="top-0 right-0 px-4 py-2  h[42.4px] font-bold text-[#5a49e3] rounded-r-md  absolute"
