@@ -14,6 +14,7 @@ import RemoveModal from "./components/modal/RemoveModal";
 import LoadingBar from "react-top-loading-bar";
 import Navbar from "./components/Navbar/Navbar";
 import CustomNavbar from "./components/CustomNavbar/CustomNavbar";
+import PhoneSignUP from "./components/PhoneSignUp/PhoneSignUP";
 
 function App() {
   const [progress, setProgress] = useState(0);
@@ -31,7 +32,7 @@ function App() {
             <Route index element={<Home />} />
             <Route path="men" element={<Men setProgress={setProgress} />} />
           </Route>
-          <Route>
+          
             <Route
               path="/login"
               element={<Login setProgress={setProgress} />}
@@ -46,7 +47,10 @@ function App() {
               path="/wishlist"
               element={<Wishlist setProgress={setProgress} />}
             />
-          </Route>
+           <Route
+              path="/otp"
+              element={<PhoneSignUP setProgress={setProgress} />}
+            />
         </Routes>
       </Router>
     </>
