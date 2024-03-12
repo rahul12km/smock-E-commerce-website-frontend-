@@ -21,6 +21,7 @@ const PhoneSignUP = () => {
   const onCaptchVerify = async () => {
     const recaptchaVerifier = new RecaptchaVerifier(
       auth,
+
       "recaptcha-container",
       {
         callback: () => {},
@@ -126,8 +127,15 @@ const PhoneSignUP = () => {
               className="flex  w-[fit-content] text-[14px] mt-5 m-auto gap-3  bg-[#5a49e3] text-white rounded-md font-semibold p-2.5"
               onClick={onSignup}
             >
-              Send Otp
+              SEND OTP
             </button>
+
+            <p
+              className="pt-[20px] text-[16px] text-[#9e94e4] flex justify-center font-semibold cursor-pointer"
+              onClick={() => navigate("/login/email")}
+            >
+              LOGIN WITH EMAIL
+            </p>
           </div>
         )}
       </div>

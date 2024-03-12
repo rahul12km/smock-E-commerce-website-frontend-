@@ -15,6 +15,7 @@ import LoadingBar from "react-top-loading-bar";
 import Navbar from "./components/Navbar/Navbar";
 import CustomNavbar from "./components/CustomNavbar/CustomNavbar";
 import PhoneSignUP from "./components/PhoneSignUp/PhoneSignUP";
+import Erorr404 from "./pages/404/404";
 
 function App() {
   const [progress, setProgress] = useState(0);
@@ -32,25 +33,27 @@ function App() {
             <Route index element={<Home />} />
             <Route path="men" element={<Men setProgress={setProgress} />} />
           </Route>
-          
-            <Route
-              path="/login"
-              element={<Login setProgress={setProgress} />}
-            />
-            <Route
-              path="/details"
-              element={<DetailPage setProgress={setProgress} />}
-            />
 
-            <Route path="/cart" element={<Cart setProgress={setProgress} />} />
-            <Route
-              path="/wishlist"
-              element={<Wishlist setProgress={setProgress} />}
-            />
-           <Route
-              path="/otp"
-              element={<PhoneSignUP setProgress={setProgress} />}
-            />
+          <Route
+            path="/login/:id"
+            element={<Login setProgress={setProgress} />}
+          />
+          <Route
+            path="/details"
+            element={<DetailPage setProgress={setProgress} />}
+          />
+
+          <Route path="/cart" element={<Cart setProgress={setProgress} />} />
+          <Route
+            path="/wishlist"
+            element={<Wishlist setProgress={setProgress} />}
+          />
+          <Route
+            path="/otp"
+            element={<PhoneSignUP setProgress={setProgress} />}
+          />
+
+          <Route path="/*" element={<Erorr404 />} />
         </Routes>
       </Router>
     </>
