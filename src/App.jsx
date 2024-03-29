@@ -17,6 +17,7 @@ import CustomNavbar from "./components/CustomNavbar/CustomNavbar";
 import PhoneSignUP from "./components/PhoneSignUp/PhoneSignUP";
 import Erorr404 from "./pages/404/404";
 import Women from "./pages/Women/Women";
+import ErrorBoundary from "./components/ErrorBoundary/ErrorBoundary";
 
 function App() {
   const [progress, setProgress] = useState(40);
@@ -31,17 +32,22 @@ function App() {
         />
         <Routes>
           <Route path="/" element={<CustomNavbar />}>
-            <Route index element={<Home />} />
-            <Route path="men" element={<Men setProgress={setProgress} />} />
-            <Route path="women" element={<Women setProgress={setProgress} />} />
-            <Route
-              path="wishlist"
-              element={<Wishlist setProgress={setProgress} />}
-            />
-            <Route
-              path="details/:productId"
-              element={<DetailPage setProgress={setProgress} />}
-            />
+            <ErrorBoundary>
+              <Route index element={<Home />} />
+              <Route path="men" element={<Men setProgress={setProgress} />} />
+              <Route
+                path="women"
+                element={<Women setProgress={setProgress} />}
+              />
+              <Route
+                path="wishlist"
+                element={<Wishlist setProgress={setProgress} />}
+              />
+              <Route
+                path="details/:productId"
+                element={<DetailPage setProgress={setProgress} />}
+              />
+            </ErrorBoundary>
           </Route>
 
           <Route
