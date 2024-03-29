@@ -6,9 +6,14 @@ const useFilter = (initialData) => {
 
   const applyFilters = () => {
     let filteredData = [...initialData];
-    filters.forEach((filter) => {
-      filteredData = filteredData.filter(filter);
-    });
+    if (filters.length > 0) {
+      filteredData = filteredData.filter((item) =>
+        filters.every((filter) => {
+          const { operand, opcode } = filter;
+          return opcode(operand, item);
+        })
+      );
+    }
     setData(filteredData);
   };
 
@@ -28,6 +33,7 @@ const useFilter = (initialData) => {
   };
 
   useEffect(() => {
+    console.log(filters);
     applyFilters();
   }, [filters, initialData]);
 

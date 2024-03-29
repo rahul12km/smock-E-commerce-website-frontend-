@@ -4,7 +4,7 @@ import { getProducts } from "../../Actions/ProductAction";
 import { useDispatch, useSelector } from "react-redux";
 import useFilter from "../../Custom Hooks/Filter";
 
-const Men = ({ setProgress }) => {
+const Women = ({ setProgress }) => {
   const product = useSelector((state) => state.product);
   const [menData, setMenData] = useState([]);
   const dispatch = useDispatch();
@@ -23,9 +23,8 @@ const Men = ({ setProgress }) => {
     }
     if (product.status === "idle") {
       setProgress(100);
-      console.log(product);
 
-      addFilter({ operand: "men", opcode: filterByFor });
+      addFilter({ operand: "women", opcode: filterByFor });
     }
     if (product.status === "error") {
       console.log("error hai bhai error hai ");
@@ -45,4 +44,4 @@ const Men = ({ setProgress }) => {
   }
 };
 
-export default Men;
+export default Women;

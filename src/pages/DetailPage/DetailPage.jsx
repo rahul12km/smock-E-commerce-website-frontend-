@@ -1,37 +1,74 @@
 /* eslint-disable react/no-unescaped-entities */
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../../components/Navbar/Navbar";
+import { useParams } from "react-router-dom";
+import axios from "axios";
+import { backendAPI } from "../../API";
+import { ListItem } from "@mui/material";
+import { useDispatch } from "react-redux";
+import { addCart } from "../../Actions/CartAction";
+import { addWishlist } from "../../Actions/WishlistAction";
 
 const DetailPage = ({ setProgress }) => {
-  useEffect(() => {
-    setProgress(40);
-    setTimeout(() => {
+  const { productId } = useParams();
+  const [product, setProduct] = useState();
+  const [size, setSize] = useState("");
+  const dispatch = useDispatch();
+
+  //==============================================================redux actions============================================================//
+  const addtocartfnc = () => {
+    if (size !== "") {
+      const body = {
+        productId: productId,
+        userId: "65f57ed8b82e228293243a64",
+        count: 1,
+        size: size,
+      };
+      dispatch(addCart(body));
+    } else {
+      alert("Please select size");
+    }
+  };
+
+  const addtoWishlistfnc = () => {
+    const body = {
+      productId: productId,
+      userId: "65f57ed8b82e228293243a64",
+    };
+    dispatch(addWishlist(body));
+  };
+
+  const fetchproduct = async () => {
+    try {
+      const { data } = await axios.get(
+        `${backendAPI}/api/products/${productId}`
+      );
       setProgress(100);
-    }, 1500);
+      setProduct(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchproduct();
   }, []);
+  //===============================================================html body==========================================//
   return (
     <div className="container  ">
-      {/* <Navbar /> */}
-
       <div className=" product-image  flex flex-row pl-5 gap-2 mt-[50px]">
-        <img
-          src="https://images.meesho.com/images/ratings_reviews/-763818620/-781892374/-763818620_-781892374_fdd45bd1fd56a_512.jpeg"
-          alt=""
-          className="w-[418px] h-[560px]"
-        />
-        <img
-          src="https://images.meesho.com/images/ratings_reviews/-763818620/-781892374/-763818620_-781892374_8747ada103f28_512.jpeg"
-          alt=""
-          className="w-[418px] h-[560px]"
-        />
+        <div className="flex flex-row w-[900px] flex-wrap gap-3 ">
+          {product?.image?.map((img, i) => (
+            <>
+              <img src={img} alt="" className="w-[418px] h-[560px]" key={i} />
+            </>
+          ))}
+        </div>
 
         <div className="product-info ml-3">
-          <h1 className="text-[24px] font-bold">Roadster</h1>
+          <h1 className="text-[24px] font-bold">{product?.brand}</h1>
 
-          <h2 className="text-[20px] text-[#8B8BA3] pb-3">
-            {" "}
-            Men's Striped Round Neck Teal Tracksuits
-          </h2>
+          <h2 className="text-[20px] text-[#8B8BA3] pb-3">{product?.name}</h2>
           <div className=" flex flex-row border-2 border-[#282c3f ] h-[29px] w-[159.733px] pl-[2px]  mb-3">
             <p className="text-[#282c3f] text-center">4.5</p>
             <p className="ml-2 color-[#03a685] text-center ">⭐</p>
@@ -39,13 +76,21 @@ const DetailPage = ({ setProgress }) => {
             <p className="">53.5k Ratings</p>
           </div>
           <div className=" flex flex-row border-t-2 border-[#d4d5d9] gap-2 ">
-            <p className="font-bold  text-[24px] mt-2">Rs 714 </p>
+            <p className="font-bold  text-[24px] mt-2">
+              ₹ {product?.retailPrice}
+            </p>
             <p className="text-[#414452] text-[24px] mt-2">MRP</p>
             <p className=" text-[#414452] line-through text-[24px] mt-2">
-              ₹1299
+              ₹{product?.purchasePrice}
             </p>
             <span className="text-[#ff905a] font-semibold text-[24px] mt-2">
-              (45% OFF)
+              (
+              {Math.floor(
+                ((product?.purchasePrice - product?.retailPrice) /
+                  product?.purchasePrice) *
+                  100
+              )}{" "}
+              % OFF)
             </span>
           </div>
           <p className="text-[14px] text-[#03a685] font-bold font-pop mt-2">
@@ -54,25 +99,32 @@ const DetailPage = ({ setProgress }) => {
 
           <p className="font-bold text-[16px] mt-3 mb-2">SELECT SIZE</p>
           <div className="flex flex-row gap-3 cursor-pointer font-bold">
-            <p className="w-[30px] h-[30px] bg-[#f5f5f6] text-[#8B8BA3] p-2 rounded-full  flex items-center justify-center  hover:text-black  ">
-              S
-            </p>
-            <p className="w-[30px] h-[30px] bg-[#f5f5f6] text-[#8B8BA3] p-2 rounded-full flex items-center justify-center hover:text-black  ">
-              M
-            </p>
-            <p className="w-[30px] h-[30px] bg-[#f5f5f6] text-[#8B8BA3] p-2 rounded-full flex items-center justify-center   hover:text-black ">
-              L
-            </p>
-            <p className="w-[30px] h-[30px] bg-[#f5f5f6] text-[#8B8BA3] p-2 rounded-full flex items-center justify-center hover:text-black ">
-              XL
-            </p>
+            {product?.size?.map((item, i) => (
+              <p
+                key={i}
+                className={`w-[30px] h-[30px] bg-[#f5f5f6]  p-2 rounded-full  flex items-center justify-center ${
+                  size === item
+                    ? "text-black"
+                    : "hover:text-black text-[#8B8BA3]"
+                } `}
+                onClick={() => setSize(item)}
+              >
+                {item}
+              </p>
+            ))}
           </div>
 
           <div className=" flex flex-row gap-5 mt-4 border-b-2 ">
-            <button className=" h-[53px] w-[190px] bg-[#5a49e3] text-white p-2 rounded-md font-semibold mb-5">
+            <button
+              className=" h-[53px] w-[190px] bg-[#5a49e3] text-white p-2 rounded-md font-semibold mb-5"
+              onClick={addtocartfnc}
+            >
               Add to Cart
             </button>
-            <button className="h-[53px] w-[190px] text-[#282c3f] border-2 border-[##d4d5d9] font-semibold bg-white p-2 rounded-md hover: border-2 hover:border-[#282c3f] mb-5">
+            <button
+              className="h-[53px] w-[190px] text-[#282c3f] border-2 border-[##d4d5d9] font-semibold bg-white p-2 rounded-md hover: border-2 hover:border-[#282c3f] mb-5"
+              onClick={addtoWishlistfnc}
+            >
               Wishlist
             </button>
           </div>

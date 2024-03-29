@@ -4,10 +4,10 @@ import Navbar from "../Navbar/Navbar";
 
 const CustomNavbar = () => {
   return (
-    <div className="container" ref={parent}>
+    <div className="container">
       <Navbar />
-      <div className="main-container" ref={parent}>
-        <div className="output" ref={parent}>
+      <div className="main-container">
+        <div className="output">
           <Outlet />
         </div>
       </div>

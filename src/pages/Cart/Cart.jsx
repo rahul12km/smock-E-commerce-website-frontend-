@@ -9,19 +9,37 @@ import SizeModal from "../../components/modal/SizeModal";
 import QuantityModal from "../../components/modal/QuantityModal";
 import ArrowDropDownRoundedIcon from "@mui/icons-material/ArrowDropDownRounded";
 import RemoveModal from "../../components/modal/RemoveModal";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchCart } from "../../Actions/CartAction";
 
 const Cart = ({ setProgress }) => {
-  const [data, setData] = useState(true);
+  const [empty, setEmpty] = useState(false);
   const navigate = useNavigate();
   const [sizeModal, setSizeModal] = useState(false);
   const [qtyModal, setQtyModal] = useState(false);
   const [removeModal, setRemoveModal] = useState(false);
+  const [localCart, setLocalCart] = useState();
+
+  const { data: cartData, loading } = useSelector((state) => state.cart);
+
+  const dispatch = useDispatch();
+
   useEffect(() => {
-    setProgress(40);
-    setTimeout(() => {
-      setProgress(100);
-    }, 1500);
+    dispatch(fetchCart());
   }, []);
+
+  useEffect(() => {
+    console.log(cartData);
+    if (loading == false) {
+      if (cartData.length === 0) {
+        setEmpty(true);
+        setProgress(100);
+      } else {
+        setEmpty(false);
+        setProgress(100);
+      }
+    }
+  }, [cartData]);
 
   return (
     <>
@@ -37,9 +55,10 @@ const Cart = ({ setProgress }) => {
             <img src={logo} alt="logo" className="" />
           </div>
           <div className="gap-2 flex flex-row my-auto  text-[15px] font-assist font-semibold  ">
-            <p className="text-[#20bd99]  tracking-[0.3em]  flex flex-col ">
-              BAG <div className="border-t-2 border-2 border-[#20bd99] "></div>
-            </p>
+            <div className="text-[#20bd99]  tracking-[0.3em]  flex flex-col ">
+              BAG
+              <div className="border-t-2 border-2 border-[#20bd99] "></div>
+            </div>
 
             <p className="text-[#696b79]">------------</p>
             <p className="tracking-[0.3em] text-[#696b79]">ADDRESS</p>
@@ -58,8 +77,8 @@ const Cart = ({ setProgress }) => {
             </p>
           </div>
         </nav>
-      </header>{" "}
-      {data ? (
+      </header>
+      {empty === false ? (
         <>
           {/*----------------------------------------------------------------- main div----------------------------------------- */}
           <div className=" container-box flex">
@@ -71,71 +90,116 @@ const Cart = ({ setProgress }) => {
                     ENTER PINCODE
                   </p>
                 </div>
-                <div className="h-[173px] w-[594px] border-2 border-[#f5f5f6] mt-3 rounded-sm relative">
-                  <div
-                    className="absolute top-0 right-0 mr-2 mt-2 cursor-pointer"
-                    onClick={() => setRemoveModal(true)}
-                  >
-                    {" "}
-                    <CloseIcon className="text-[#a1a2a8]" />
-                  </div>
 
-                  <div className="flex flex-row">
-                    <img
-                      src="https://assets.myntassets.com/h_720,q_90,w_540/v1/assets/images/21358008/2022/12/30/857660aa-aa0c-407a-a094-95e2e90087fa1672400774136SpykarMenPistaGreenCottonSlimFitPlainShirt1.jpg"
-                      alt=""
-                      className="h-[155px] p-2 w-[120px] "
-                    />
-
-                    <div className="flex flex-col ml-2 gap-1">
-                      <p className="font-bold text-[14px] text-[#282c3f] mt-2">
-                        SPYKAR
-                      </p>
-                      <p className="text-[#282c3f] text-[14px]">
-                        Men Classic Slim Fit Cotton Casual Shirt
-                      </p>
-                      <p className="text-[#94969f]  text-[12px]">
-                        Sold By:SPYKAR PVT LTD
-                      </p>
-                      <div className="flex flex-row gap-3">
-                        <p
-                          className="bg-[#f5f5f6] h-[20px] w-[73px] text-[14px] text-[#282c3f] font-semibold flex items-center justify-center cursor-pointer"
-                          onClick={() => {
-                            setSizeModal(true);
-                          }}
-                        >
-                          Size:46
-                          <ArrowDropDownRoundedIcon className="text-black" />
-                        </p>
-
-                        <p
-                          className="bg-[#f5f5f6] h-[20px] w-[73px] text-[14px] text-[#282c3f] font-semibold flex items-center justify-center cursor-pointer"
-                          onClick={() => setQtyModal(true)}
-                        >
-                          Qty:1
-                          <ArrowDropDownRoundedIcon className="text-black" />
-                        </p>
+                {cartData?.map((item) => (
+                  <>
+                    <div
+                      key={item._id}
+                      className="h-[173px] w-[594px] border-2 border-[#f5f5f6] mt-3 rounded-sm relative"
+                    >
+                      <div
+                        className="absolute top-0 right-0 mr-2 mt-2 cursor-pointer"
+                        onClick={() => setRemoveModal(true)}
+                      >
+                        {" "}
+                        <CloseIcon className="text-[#a1a2a8]" />
                       </div>
-                      <div className="flex flex-row gap-2">
-                        <p className="text-[#282c3f] font-bold text-[14px]">
-                          ₹ 999
-                        </p>
-                        <p className="line-through text-[14px] text-[#94969f]">
-                          ₹ 1999
-                        </p>
 
-                        <p className="text-[14px] text-[#5a49e3] font-semibold">
-                          50% OFF
-                        </p>
+                      <div className="flex flex-row">
+                        <img
+                          src={item.productId.image[0]}
+                          className="h-[155px] p-2 w-[120px] "
+                        />
+
+                        <div className="flex flex-col ml-2 gap-1">
+                          <p className="font-bold text-[14px] text-[#282c3f] mt-2">
+                            {item.productId.brand}
+                          </p>
+                          <p className="text-[#282c3f] text-[14px]">
+                            {item.productId.name}
+                          </p>
+                          <p className="text-[#94969f]  text-[12px]">
+                            {item.productId.soldby}
+                          </p>
+                          <div className="flex flex-row gap-3">
+                            <p
+                              className="bg-[#f5f5f6] h-[20px] w-[73px] text-[14px] text-[#282c3f] font-semibold flex items-center justify-center cursor-pointer"
+                              onClick={() => {
+                                setSizeModal(true);
+                              }}
+                            >
+                              Size:{item.size}
+                              <ArrowDropDownRoundedIcon className="text-black" />
+                            </p>
+
+                            <p
+                              className="bg-[#f5f5f6] h-[20px] w-[73px] text-[14px] text-[#282c3f] font-semibold flex items-center justify-center cursor-pointer"
+                              onClick={() => setQtyModal(true)}
+                            >
+                              Qty:{item.count}
+                              <ArrowDropDownRoundedIcon className="text-black" />
+                            </p>
+                          </div>
+                          <div className="flex flex-row gap-2">
+                            <p className="text-[#242425] font-bold text-[14px]">
+                              ₹ {item.productId.retailPrice}
+                            </p>
+                            <p className="line-through text-[14px] text-[#94969f]">
+                              ₹ {item.productId.purchasePrice}
+                            </p>
+
+                            <p className="text-[14px] text-[#5a49e3] font-semibold">
+                              {Math.floor(
+                                ((item.productId.purchasePrice -
+                                  item.productId.retailPrice) /
+                                  item.productId.purchasePrice) *
+                                  100
+                              )}
+                              % OFF
+                            </p>
+                          </div>
+                          <p className="text-[12px] ">
+                            <span className="font-semibold"> 14 day</span>{" "}
+                            return available
+                          </p>
+                        </div>
                       </div>
-                      <p className="text-[12px] ">
-                        <span className="font-semibold"> 14 day</span> return
-                        available
-                      </p>
                     </div>
-                  </div>
-                </div>
+
+                    <div className={`${sizeModal ? "flex" : "hidden"}`}>
+                      <SizeModal
+                        setSizeModal={setSizeModal}
+                        item={item}
+                        setLocalCart={setLocalCart}
+                        localCart={localCart}
+                      />
+                    </div>
+                    {qtyModal ? (
+                      <QuantityModal
+                        setQtyModal={setQtyModal}
+                        item={item}
+                        setLocalCart={setLocalCart}
+                        localCart={localCart}
+                      />
+                    ) : (
+                      <></>
+                    )}
+                    {removeModal ? (
+                      <RemoveModal
+                        setRemoveModal={setRemoveModal}
+                        item={item}
+                        setLocalCart={setLocalCart}
+                        localCart={localCart}
+                      />
+                    ) : (
+                      <></>
+                    )}
+                  </>
+                ))}
               </div>
+
+              {/* ---------------------------------------------------------------Coupon Section -------------------------------*/}
+
               <div className="flex flex-col ml-3 border-l-[1px] border-[#d4d4d5] pl-4 ">
                 <p className="text-[#535766] text-[12px] font-bold mt-10">
                   COUPONS
@@ -204,15 +268,6 @@ const Cart = ({ setProgress }) => {
               </div>
             </div>
           </div>
-          <div className={`${sizeModal ? "flex" : "hidden"}`}>
-            <SizeModal setSizeModal={setSizeModal} />
-          </div>
-          {qtyModal ? <QuantityModal setQtyModal={setQtyModal} /> : <></>}
-          {removeModal ? (
-            <RemoveModal setRemoveModal={setRemoveModal} />
-          ) : (
-            <></>
-          )}
         </>
       ) : (
         <>

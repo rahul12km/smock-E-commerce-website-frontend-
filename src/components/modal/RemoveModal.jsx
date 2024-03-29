@@ -1,7 +1,26 @@
 import React from "react";
 import CloseIcon from "@mui/icons-material/Close";
+import { useDispatch } from "react-redux";
+import { removeCart } from "../../Actions/CartAction";
+import { addWishlist } from "../../Actions/WishlistAction";
+const RemoveModal = ({ setRemoveModal, item }) => {
+  const dispatch = useDispatch();
 
-const RemoveModal = ({ setRemoveModal }) => {
+  const handleDelete = () => {
+    dispatch(removeCart(item._id));
+    setRemoveModal(false);
+  };
+
+  const handleMove = () => {
+    const body = {
+      productId: item.productId._id,
+      userId: item.userId,
+    };
+    dispatch(addWishlist(body));
+    dispatch(removeCart(item._id));
+    setRemoveModal(false);
+  };
+
   return (
     <>
       <div
@@ -15,14 +34,11 @@ const RemoveModal = ({ setRemoveModal }) => {
           className="absolute right-3 top-[24px] cursor-pointer"
           onClick={() => setRemoveModal(false)}
         >
-          <CloseIcon className="text-[#434343] " />
+          <CloseIcon className="text-[#434343] cursor-pointer " />
         </div>
         <div className="flex  mx-auto h-[100.35px] w-[367.4px] mt-[24.8px] border-b-[1px] border-[#EAEAEC]">
           <div className="img-cont h-[125.35px] w-[60px]">
-            <img
-              src="https://assets.myntassets.com/h_720,q_90,w_540/v1/assets/images/21358008/2022/12/30/857660aa-aa0c-407a-a094-95e2e90087fa1672400774136SpykarMenPistaGreenCottonSlimFitPlainShirt1.jpg"
-              className="h-[80px] w-[60px]"
-            />
+            <img src={item.productId.image[0]} className="h-[80px] w-[60px]" />
           </div>
 
           <div className=" text-cont flex flex-col h-[80px] w-[291.4px]">
@@ -37,10 +53,16 @@ const RemoveModal = ({ setRemoveModal }) => {
         </div>
 
         <div className="flex  items-center justify-center h-[40px] w-[367.4px] mx-auto my-4">
-          <p className=" font-semibold text-[#696b79] border-r-2 border-[#eaeaec]  cursor-pointer flex  justify-center w-[50%]">
+          <p
+            className=" font-semibold text-[#696b79] border-r-2 border-[#eaeaec]  cursor-pointer flex  justify-center w-[50%]"
+            onClick={handleDelete}
+          >
             REMOVE
           </p>
-          <p className="text-[#5a49e3] flex  justify-center w-[50%] cursor-pointer font-semibold">
+          <p
+            className="text-[#5a49e3] flex  justify-center w-[50%] cursor-pointer font-semibold"
+            onClick={handleMove}
+          >
             MOVE TO WISHLIST
           </p>
         </div>
