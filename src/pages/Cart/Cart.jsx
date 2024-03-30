@@ -18,7 +18,6 @@ const Cart = ({ setProgress }) => {
   const [sizeModal, setSizeModal] = useState(false);
   const [qtyModal, setQtyModal] = useState(false);
   const [removeModal, setRemoveModal] = useState(false);
-  const [localCart, setLocalCart] = useState();
 
   const { data: cartData, loading } = useSelector((state) => state.cart);
 
@@ -186,20 +185,10 @@ const Cart = ({ setProgress }) => {
                     </div>
 
                     <div className={`${sizeModal ? "flex" : "hidden"}`}>
-                      <SizeModal
-                        setSizeModal={setSizeModal}
-                        item={item}
-                        setLocalCart={setLocalCart}
-                        localCart={localCart}
-                      />
+                      <SizeModal setSizeModal={setSizeModal} item={item} />
                     </div>
                     {qtyModal ? (
-                      <QuantityModal
-                        setQtyModal={setQtyModal}
-                        item={item}
-                        setLocalCart={setLocalCart}
-                        localCart={localCart}
-                      />
+                      <QuantityModal setQtyModal={setQtyModal} item={item} />
                     ) : (
                       <></>
                     )}
@@ -207,8 +196,6 @@ const Cart = ({ setProgress }) => {
                       <RemoveModal
                         setRemoveModal={setRemoveModal}
                         item={item}
-                        setLocalCart={setLocalCart}
-                        localCart={localCart}
                       />
                     ) : (
                       <></>

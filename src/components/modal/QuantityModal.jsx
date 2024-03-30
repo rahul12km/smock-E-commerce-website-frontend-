@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import { updateCart } from "../../Actions/CartAction";
 import { useDispatch } from "react-redux";
-const QuantityModal = ({ setQtyModal, item, localCart, setLocalCart }) => {
+const QuantityModal = ({ setQtyModal, item }) => {
   const [qty, setQty] = useState(1);
   let numitem = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   const dispatch = useDispatch();
@@ -10,7 +10,6 @@ const QuantityModal = ({ setQtyModal, item, localCart, setLocalCart }) => {
   //-----------------------------------LOCAL UPDATE AND  BACKEND UPDATE---------------------------------------//
 
   const handleQtyUpdate = () => {
-    console.log(item._id, qty, item.size);
     dispatch(updateCart({ id: item._id, qty, size: item.size }));
     setQtyModal(false);
   };
