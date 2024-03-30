@@ -1,5 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import bag from "../../assets/Cart.png";
 import { useNavigate } from "react-router-dom";
 import logo from "../../assets/logo.png";
@@ -28,6 +28,24 @@ const Cart = ({ setProgress }) => {
     dispatch(fetchCart());
   }, []);
 
+  //=================================================================usememo==========================================//
+
+  const purchasePrice = useMemo(() => {
+    return cartData?.reduce(
+      (total, item) => total + item.productId.purchasePrice * item.count,
+      0
+    );
+  }, [cartData]);
+
+  const retailPrice = useMemo(() => {
+    return cartData?.reduce(
+      (total, item) => total + item.productId.retailPrice * item.count,
+      0
+    );
+  }, [cartData]);
+
+  //======================================================================== useEffect===================================================//
+
   useEffect(() => {
     console.log(cartData);
     if (loading == false) {
@@ -43,7 +61,7 @@ const Cart = ({ setProgress }) => {
 
   return (
     <>
-      {/* -----------------header -------------------------------------------------------------*/}
+      {/* ---------------------------------------------------------------------header ------------------------------------------------------------------------*/}
       <header className=" h-[70px] sticky top-0 z-20 bg-white shadow-md  hover:shadow-lg">
         <nav className="flex flex-row w-[100%]  h-[70px] justify-between">
           <div
@@ -80,7 +98,8 @@ const Cart = ({ setProgress }) => {
       </header>
       {empty === false ? (
         <>
-          {/*----------------------------------------------------------------- main div----------------------------------------- */}
+          {/*----------------------------------------------------------------- main div------------------------------------------------- */}
+
           <div className=" container-box flex">
             <div className="flex flex-row m-auto">
               <div className="flex flex-col ">
@@ -200,7 +219,7 @@ const Cart = ({ setProgress }) => {
 
               {/* ---------------------------------------------------------------Coupon Section -------------------------------*/}
 
-              <div className="flex flex-col ml-3 border-l-[1px] border-[#d4d4d5] pl-4 ">
+              <div className="flex flex-col ml-3 border-l-[1px] border-[#d4d4d5] px-4   ">
                 <p className="text-[#535766] text-[12px] font-bold mt-10">
                   COUPONS
                 </p>
@@ -217,20 +236,24 @@ const Cart = ({ setProgress }) => {
                   PRICE DETAILS (1 Items)
                 </p>
                 <div className="flex flex-col gap-2">
-                  <div className="flex flex-row gap-[152px]">
+                  <div className="flex flex-row justify-between">
                     <p className="text-[14px] text-[#282c3f] font-bold mt-3">
                       Total MRP
                     </p>
-                    <p className=" text-[14px] text-[#282c3f] mt-3">₹ 1999</p>
+                    <p className=" text-[14px] text-[#282c3f] mt-3">
+                      ₹ {purchasePrice}
+                    </p>
                   </div>
 
-                  <div className="flex flex-row gap-[100px]">
+                  <div className="flex flex-row justify-between">
                     <p className="text-[14px] text-[#282c3f] font-bold mt-3">
                       Discount on MRP
                     </p>
-                    <p className=" text-[14px] text-[#03a685] mt-3">-₹ 1000</p>
+                    <p className=" text-[14px] text-[#03a685] mt-3">
+                      -₹ {purchasePrice - retailPrice}
+                    </p>
                   </div>
-                  <div className="flex flex-row gap-[55px]">
+                  <div className="flex flex-row justify-between">
                     <p className="text-[14px] text-[#282c3f] font-bold mt-3">
                       Coupon Discount
                     </p>
@@ -238,13 +261,13 @@ const Cart = ({ setProgress }) => {
                       Apply Coupon
                     </p>
                   </div>
-                  <div className="flex flex-row gap-[143px]">
+                  <div className="flex flex-row justify-between">
                     <p className="text-[14px] text-[#282c3f] font-bold mt-3">
                       Platform Fee
                     </p>
                     <p className=" text-[14px] text-[#03a685] mt-3">FREE</p>
                   </div>
-                  <div className="flex flex-row gap-[109px]">
+                  <div className="flex flex-row justify-between">
                     <p className="text-[14px] text-[#282c3f] font-bold mt-3">
                       Shipping Fee
                     </p>
@@ -255,11 +278,13 @@ const Cart = ({ setProgress }) => {
                       FREE
                     </p>
                   </div>
-                  <div className="flex flex-row gap-[136px] border-t-2 border-[#d4d4d5]  ">
+                  <div className="flex flex-row justify-between border-t-2 border-[#d4d4d5]  ">
                     <p className="text-[14px] text-[#282c3f] font-bold mt-3 ">
-                      Total Gaming
+                      Total
                     </p>
-                    <p className=" text-[14px] text-[#282c3f] mt-3">₹ 999</p>
+                    <p className=" text-[14px] text-[#282c3f] mt-3 ml-[55px]">
+                      ₹ {retailPrice}
+                    </p>
                   </div>
                   <button className="h-[40px] w-[270px] text-[14px] font-semibold text-white bg-[#5a49e3] flex items-center justify-center ">
                     PLACE ORDER

@@ -269,9 +269,7 @@ const Layout = ({ Data }) => {
                       className="h-[15px] w-[15px] rounded-full "
                       style={{ backgroundColor: color }}
                     ></span>
-                    <label htmlFor={`price_${index}`} className="text-sm">
-                      {color}
-                    </label>
+                    <label className="text-sm">{color}</label>
                   </div>
                 ))}
               </div>
@@ -312,9 +310,7 @@ const Layout = ({ Data }) => {
                       // onChange={(e) => handleColorChange(e.target.value)}
                       className="form-checkbox h-5 w-5 text-indigo-600 rounded border-gray-300 focus:border-indigo-300 ml-3"
                     />
-                    <label htmlFor={`brand_${index}`} className="text-sm">
-                      {brand}
-                    </label>
+                    <label className="text-sm">{brand}</label>
                   </div>
                 ))}
               </div>
@@ -354,7 +350,7 @@ const Layout = ({ Data }) => {
                       // onChange={(e) => handleColorChange(e.target.value)}
                       className="form-checkbox h-5 w-5 text-indigo-600 rounded border-gray-300 focus:border-indigo-300 ml-3"
                     />
-                    <label htmlFor={`price_${index}`} className="text-sm">
+                    <label className="text-sm">
                       ₹ {price.min} - ₹ {price.max}
                     </label>
                   </div>

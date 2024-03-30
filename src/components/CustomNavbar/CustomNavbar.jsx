@@ -1,17 +1,20 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
 import Navbar from "../Navbar/Navbar";
+import ErrorBoundary from "../ErrorBoundary/ErrorBoundary";
 
 const CustomNavbar = () => {
   return (
-    <div className="container">
-      <Navbar />
-      <div className="main-container">
-        <div className="output">
-          <Outlet />
+    <ErrorBoundary>
+      <div className="container">
+        <Navbar />
+        <div className="main-container">
+          <div className="output">
+            <Outlet />
+          </div>
         </div>
       </div>
-    </div>
+    </ErrorBoundary>
   );
 };
 

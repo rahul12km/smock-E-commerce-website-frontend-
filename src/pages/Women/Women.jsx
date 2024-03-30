@@ -23,11 +23,14 @@ const Women = ({ setProgress }) => {
     }
     if (product.status === "idle") {
       setProgress(100);
+      console.log(product);
 
-      addFilter({ operand: "women", opcode: filterByFor });
+      addFilter({ operand: "men", opcode: filterByFor });
     }
     if (product.status === "error") {
       console.log("error hai bhai error hai ");
+    } else {
+      setProgress(100);
     }
   }, [product.status]);
 

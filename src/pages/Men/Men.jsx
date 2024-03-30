@@ -29,6 +29,8 @@ const Men = ({ setProgress }) => {
     }
     if (product.status === "error") {
       console.log("error hai bhai error hai ");
+    } else {
+      setProgress(100);
     }
   }, [product.status]);
 
