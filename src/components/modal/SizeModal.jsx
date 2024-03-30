@@ -1,33 +1,42 @@
-import React, { useState } from "react";
+import React,{useState,useEffect} from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import { useDispatch } from "react-redux";
 import { updateCart } from "../../Actions/CartAction";
 
-const SizeModal = ({ setSizeModal, item }) => {
+const SizeModal = ({ item ,setOpenModal}) => {
+
   const dispatch = useDispatch();
-  const [size, setSize] = useState();
+const [size ,setSize]=useState()
+
+
+
+
+const handleCloseModal=()=>{
+ 
+  setOpenModal({remove:"",qty:"",size:"",})
+}
 
   //-----------------------------------LOCAL UPDATE AND  BACKEND UPDATE---------------------------------------//
 
   const handleSizeUpdate = () => {
-    dispatch(updateCart({ id: item._id, qty: item.count, size }));
-    setSizeModal(false);
+    dispatch(updateCart({id:item._id, qty:item.count, size}));
+    handleCloseModal();
+  
   };
+
 
   // ----------------------------------------------------------HTML BODY-------------------------------------------//
   return (
-    <>
+    <div >
       <div
         className="h-[100vh] w-full fixed left-0 right-0 top-0 z-[23] bg-[rgba(0,0,0,.5)] flex"
-        onClick={() => {
-          setSizeModal(false);
-        }}
+        onClick={handleCloseModal}
       ></div>
       <div className="modal-cont h-[360px] w-[417px] z-[30] absolute  top-[25%] left-[35%]  bg-white flex  flex-col">
         <div className="flex  mx-auto h-[125.35px] w-[367.4px] mt-[24.8px] relative border-b-[1px] border-[#EAEAEC]">
           <div
             className="absolute right-0 top-0 cursor-pointer "
-            onClick={() => setSizeModal(false)}
+            onClick={handleCloseModal}
           >
             <CloseIcon className="text-[#434343]" />
           </div>
@@ -66,16 +75,12 @@ const SizeModal = ({ setSizeModal, item }) => {
             {item.productId.size.map((s, i) => (
               <>
                 <div
-                  className={`h-[44.45px] w-[43.6px] font-semibold flex items-center justify-center rounded-full border-[2px]  cursor-pointer ${
-                    size === s
-                      ? " text-[#5a49e3] border-[#5a49e3]"
-                      : " border-[#535766] hover:text-[#5a49e3]  hover:border-[#5a49e3]"
-                  } `}
+                  className={`h-[44.45px] w-[43.6px] font-semibold flex items-center justify-center rounded-full border-[2px]  cursor-pointer ${size===s?" text-[#5a49e3] border-[#5a49e3]":" border-[#535766] hover:text-[#5a49e3]  hover:border-[#5a49e3]"} `}
                   key={i}
                   onClick={() => {
-                    setSize(s);
+                    setSize(s)
                   }}
-                >
+                > 
                   <span>{s}</span>
                 </div>
               </>
@@ -89,14 +94,12 @@ const SizeModal = ({ setSizeModal, item }) => {
             </span>
           </p>
         </div>
-        <div
-          className="flex items-center justify-center h-[40px] w-[367.4px] bg-[#5a49e3] mx-auto my-4"
-          onClick={handleSizeUpdate}
-        >
+        <div className="flex items-center justify-center h-[40px] w-[367.4px] bg-[#5a49e3] mx-auto my-4"
+        onClick={handleSizeUpdate}>
           <p className="text-white font-semibold">DONE</p>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

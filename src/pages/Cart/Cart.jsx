@@ -1,5 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import bag from "../../assets/Cart.png";
 import { useNavigate } from "react-router-dom";
 import logo from "../../assets/logo.png";
@@ -9,17 +9,21 @@ import SizeModal from "../../components/modal/SizeModal";
 import QuantityModal from "../../components/modal/QuantityModal";
 import ArrowDropDownRoundedIcon from "@mui/icons-material/ArrowDropDownRounded";
 import RemoveModal from "../../components/modal/RemoveModal";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";    
 import { fetchCart } from "../../Actions/CartAction";
 
 const Cart = ({ setProgress }) => {
   const [empty, setEmpty] = useState(false);
   const navigate = useNavigate();
-  const [sizeModal, setSizeModal] = useState(false);
-  const [qtyModal, setQtyModal] = useState(false);
-  const [removeModal, setRemoveModal] = useState(false);
-  const [localCart, setLocalCart] = useState();
+ 
+  const[openModal, setOpenModal] = useState({
+    size:"",
+    remove:"",
+    qty:""
+  })
+ 
 
+  useEffect(()=>{console.log(openModal)},[openModal])
   const { data: cartData, loading } = useSelector((state) => state.cart);
 
   const dispatch = useDispatch();
@@ -28,30 +32,14 @@ const Cart = ({ setProgress }) => {
     dispatch(fetchCart());
   }, []);
 
-  //=================================================================usememo==========================================//
-
-  const purchasePrice = useMemo(() => {
-    return cartData?.reduce(
-      (total, item) => total + item.productId.purchasePrice * item.count,
-      0
-    );
-  }, [cartData]);
-
-  const retailPrice = useMemo(() => {
-    return cartData?.reduce(
-      (total, item) => total + item.productId.retailPrice * item.count,
-      0
-    );
-  }, [cartData]);
-
-  //======================================================================== useEffect===================================================//
 
   useEffect(() => {
-    console.log(cartData);
+   console.log(cartData)
     if (loading == false) {
       if (cartData.length === 0) {
         setEmpty(true);
         setProgress(100);
+      
       } else {
         setEmpty(false);
         setProgress(100);
@@ -61,7 +49,7 @@ const Cart = ({ setProgress }) => {
 
   return (
     <>
-      {/* ---------------------------------------------------------------------header ------------------------------------------------------------------------*/}
+      {/* -----------------header -------------------------------------------------------------*/}
       <header className=" h-[70px] sticky top-0 z-20 bg-white shadow-md  hover:shadow-lg">
         <nav className="flex flex-row w-[100%]  h-[70px] justify-between">
           <div
@@ -73,10 +61,11 @@ const Cart = ({ setProgress }) => {
             <img src={logo} alt="logo" className="" />
           </div>
           <div className="gap-2 flex flex-row my-auto  text-[15px] font-assist font-semibold  ">
-            <div className="text-[#20bd99]  tracking-[0.3em]  flex flex-col ">
-              BAG
-              <div className="border-t-2 border-2 border-[#20bd99] "></div>
-            </div>
+          <div className="text-[#20bd99]  tracking-[0.3em]  flex flex-col ">
+  BAG 
+  <div className="border-t-2 border-2 border-[#20bd99] "></div>
+</div>
+
 
             <p className="text-[#696b79]">------------</p>
             <p className="tracking-[0.3em] text-[#696b79]">ADDRESS</p>
@@ -98,8 +87,7 @@ const Cart = ({ setProgress }) => {
       </header>
       {empty === false ? (
         <>
-          {/*----------------------------------------------------------------- main div------------------------------------------------- */}
-
+          {/*----------------------------------------------------------------- main div----------------------------------------- */}
           <div className=" container-box flex">
             <div className="flex flex-row m-auto">
               <div className="flex flex-col ">
@@ -108,17 +96,17 @@ const Cart = ({ setProgress }) => {
                   <p className="my-auto mr-3  cursor-pointer border-2 border-[#5a49e3] h-[34px] w-[128px] items-center flex justify-center text-[12px] text-[#5a49e3] rounded-md">
                     ENTER PINCODE
                   </p>
-                </div>
-
+                </div> 
+ 
                 {cartData?.map((item) => (
-                  <>
+                  <div key={item._id}>
                     <div
-                      key={item._id}
+                      
                       className="h-[173px] w-[594px] border-2 border-[#f5f5f6] mt-3 rounded-sm relative"
                     >
                       <div
                         className="absolute top-0 right-0 mr-2 mt-2 cursor-pointer"
-                        onClick={() => setRemoveModal(true)}
+                        onClick={() =>  setOpenModal({remove:item._id,qty:"",size:""})}
                       >
                         {" "}
                         <CloseIcon className="text-[#a1a2a8]" />
@@ -140,20 +128,19 @@ const Cart = ({ setProgress }) => {
                           <p className="text-[#94969f]  text-[12px]">
                             {item.productId.soldby}
                           </p>
-                          <div className="flex flex-row gap-3">
-                            <p
-                              className="bg-[#f5f5f6] h-[20px] w-[73px] text-[14px] text-[#282c3f] font-semibold flex items-center justify-center cursor-pointer"
-                              onClick={() => {
-                                setSizeModal(true);
-                              }}
-                            >
+                          <div
+                            className="flex flex-row gap-3"
+                            
+                          >
+                            <p className="bg-[#f5f5f6] h-[20px] w-[73px] text-[14px] text-[#282c3f] font-semibold flex items-center justify-center cursor-pointer"
+                            onClick={() =>  setOpenModal({remove:"",qty:"",size:item._id})}>
                               Size:{item.size}
                               <ArrowDropDownRoundedIcon className="text-black" />
                             </p>
 
                             <p
                               className="bg-[#f5f5f6] h-[20px] w-[73px] text-[14px] text-[#282c3f] font-semibold flex items-center justify-center cursor-pointer"
-                              onClick={() => setQtyModal(true)}
+                              onClick={() =>  setOpenModal({remove:"",qty:item._id,size:""})}
                             >
                               Qty:{item.count}
                               <ArrowDropDownRoundedIcon className="text-black" />
@@ -185,41 +172,41 @@ const Cart = ({ setProgress }) => {
                       </div>
                     </div>
 
-                    <div className={`${sizeModal ? "flex" : "hidden"}`}>
-                      <SizeModal
-                        setSizeModal={setSizeModal}
-                        item={item}
-                        setLocalCart={setLocalCart}
-                        localCart={localCart}
-                      />
-                    </div>
-                    {qtyModal ? (
+                    {openModal.size===item._id?( <SizeModal
+                     
+                     item={item}
+                     
+                     setOpenModal={setOpenModal}
+           
+                   />):(<></>)}
+                     
+                    
+                    {openModal.qty===item.
+                    _id ? (
                       <QuantityModal
-                        setQtyModal={setQtyModal}
+                         setOpenModal={setOpenModal}
                         item={item}
-                        setLocalCart={setLocalCart}
-                        localCart={localCart}
+                       
                       />
                     ) : (
                       <></>
                     )}
-                    {removeModal ? (
+                    {openModal.remove===item._id ? (
                       <RemoveModal
-                        setRemoveModal={setRemoveModal}
+                        setOpenModal={setOpenModal}
                         item={item}
-                        setLocalCart={setLocalCart}
-                        localCart={localCart}
+                        
                       />
                     ) : (
                       <></>
                     )}
-                  </>
+                  </div>
                 ))}
               </div>
 
               {/* ---------------------------------------------------------------Coupon Section -------------------------------*/}
 
-              <div className="flex flex-col ml-3 border-l-[1px] border-[#d4d4d5] px-4   ">
+              <div className="flex flex-col ml-3 border-l-[1px] border-[#d4d4d5] pl-4 ">
                 <p className="text-[#535766] text-[12px] font-bold mt-10">
                   COUPONS
                 </p>
@@ -236,24 +223,20 @@ const Cart = ({ setProgress }) => {
                   PRICE DETAILS (1 Items)
                 </p>
                 <div className="flex flex-col gap-2">
-                  <div className="flex flex-row justify-between">
+                  <div className="flex flex-row gap-[152px]">
                     <p className="text-[14px] text-[#282c3f] font-bold mt-3">
                       Total MRP
                     </p>
-                    <p className=" text-[14px] text-[#282c3f] mt-3">
-                      ₹ {purchasePrice}
-                    </p>
+                    <p className=" text-[14px] text-[#282c3f] mt-3">₹ 1999</p>
                   </div>
 
-                  <div className="flex flex-row justify-between">
+                  <div className="flex flex-row gap-[100px]">
                     <p className="text-[14px] text-[#282c3f] font-bold mt-3">
                       Discount on MRP
                     </p>
-                    <p className=" text-[14px] text-[#03a685] mt-3">
-                      -₹ {purchasePrice - retailPrice}
-                    </p>
+                    <p className=" text-[14px] text-[#03a685] mt-3">-₹ 1000</p>
                   </div>
-                  <div className="flex flex-row justify-between">
+                  <div className="flex flex-row gap-[55px]">
                     <p className="text-[14px] text-[#282c3f] font-bold mt-3">
                       Coupon Discount
                     </p>
@@ -261,13 +244,13 @@ const Cart = ({ setProgress }) => {
                       Apply Coupon
                     </p>
                   </div>
-                  <div className="flex flex-row justify-between">
+                  <div className="flex flex-row gap-[143px]">
                     <p className="text-[14px] text-[#282c3f] font-bold mt-3">
                       Platform Fee
                     </p>
                     <p className=" text-[14px] text-[#03a685] mt-3">FREE</p>
                   </div>
-                  <div className="flex flex-row justify-between">
+                  <div className="flex flex-row gap-[109px]">
                     <p className="text-[14px] text-[#282c3f] font-bold mt-3">
                       Shipping Fee
                     </p>
@@ -278,13 +261,11 @@ const Cart = ({ setProgress }) => {
                       FREE
                     </p>
                   </div>
-                  <div className="flex flex-row justify-between border-t-2 border-[#d4d4d5]  ">
+                  <div className="flex flex-row gap-[136px] border-t-2 border-[#d4d4d5]  ">
                     <p className="text-[14px] text-[#282c3f] font-bold mt-3 ">
-                      Total
+                      Total Gaming
                     </p>
-                    <p className=" text-[14px] text-[#282c3f] mt-3 ml-[55px]">
-                      ₹ {retailPrice}
-                    </p>
+                    <p className=" text-[14px] text-[#282c3f] mt-3">₹ 999</p>
                   </div>
                   <button className="h-[40px] w-[270px] text-[14px] font-semibold text-white bg-[#5a49e3] flex items-center justify-center ">
                     PLACE ORDER

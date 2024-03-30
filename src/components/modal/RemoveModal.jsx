@@ -3,13 +3,21 @@ import CloseIcon from "@mui/icons-material/Close";
 import { useDispatch } from "react-redux";
 import { removeCart } from "../../Actions/CartAction";
 import { addWishlist } from "../../Actions/WishlistAction";
-const RemoveModal = ({ setRemoveModal, item }) => {
+const RemoveModal = ( {item ,setOpenModal}) => {
   const dispatch = useDispatch();
+
+  const handleCloseModal=()=>{
+ 
+    setOpenModal({remove:"",qty:"",size:"",})
+  }
+  
 
   const handleDelete = () => {
     dispatch(removeCart(item._id));
-    setRemoveModal(false);
+    handleCloseModal();
   };
+
+
 
   const handleMove = () => {
     const body = {
@@ -18,21 +26,22 @@ const RemoveModal = ({ setRemoveModal, item }) => {
     };
     dispatch(addWishlist(body));
     dispatch(removeCart(item._id));
-    setRemoveModal(false);
+    handleCloseModal();
   };
+
 
   return (
     <>
       <div
         className="h-[100vh] w-full fixed left-0 right-0 top-0 z-[23] bg-[rgba(0,0,0,.5)] flex"
         onClick={() => {
-          setRemoveModal(false);
+          onClick={handleCloseModal}
         }}
       ></div>
       <div className="modal-cont h-[185px] w-[417px] z-[30] absolute  top-[25%] left-[35%]  bg-white flex  flex-col  ">
         <div
           className="absolute right-3 top-[24px] cursor-pointer"
-          onClick={() => setRemoveModal(false)}
+          onClick={handleCloseModal}
         >
           <CloseIcon className="text-[#434343] cursor-pointer " />
         </div>
