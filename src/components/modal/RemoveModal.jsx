@@ -3,21 +3,17 @@ import CloseIcon from "@mui/icons-material/Close";
 import { useDispatch } from "react-redux";
 import { removeCart } from "../../Actions/CartAction";
 import { addWishlist } from "../../Actions/WishlistAction";
-const RemoveModal = ( {item ,setOpenModal}) => {
+const RemoveModal = ({ item, setOpenModal }) => {
   const dispatch = useDispatch();
 
-  const handleCloseModal=()=>{
- 
-    setOpenModal({remove:"",qty:"",size:"",})
-  }
-  
+  const handleCloseModal = () => {
+    setOpenModal({ remove: "", qty: "", size: "" });
+  };
 
   const handleDelete = () => {
     dispatch(removeCart(item._id));
     handleCloseModal();
   };
-
-
 
   const handleMove = () => {
     const body = {
@@ -29,13 +25,14 @@ const RemoveModal = ( {item ,setOpenModal}) => {
     handleCloseModal();
   };
 
-
   return (
     <>
       <div
         className="h-[100vh] w-full fixed left-0 right-0 top-0 z-[23] bg-[rgba(0,0,0,.5)] flex"
         onClick={() => {
-          onClick={handleCloseModal}
+          {
+            handleCloseModal;
+          }
         }}
       ></div>
       <div className="modal-cont h-[185px] w-[417px] z-[30] absolute  top-[25%] left-[35%]  bg-white flex  flex-col  ">

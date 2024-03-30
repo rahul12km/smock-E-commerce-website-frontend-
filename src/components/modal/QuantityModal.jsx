@@ -2,34 +2,21 @@ import React, { useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import { updateCart } from "../../Actions/CartAction";
 import { useDispatch } from "react-redux";
-<<<<<<< HEAD
-const QuantityModal = ({ setQtyModal, item }) => {
-=======
-const QuantityModal = ( {item ,setOpenModal}) => {
->>>>>>> 5909ff3370bb161d934961fa8b667fe28a86c28a
+const QuantityModal = ({ item, setOpenModal }) => {
   const [qty, setQty] = useState(1);
   let numitem = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   const dispatch = useDispatch();
 
-
-  const handleCloseModal=()=>{
- 
-    setOpenModal({remove:"",qty:"",size:"",})
-  }
-  
+  const handleCloseModal = () => {
+    setOpenModal({ remove: "", qty: "", size: "" });
+  };
 
   //-----------------------------------LOCAL UPDATE AND  BACKEND UPDATE---------------------------------------//
-  
-  const handleQtyUpdate = () => {
-<<<<<<< HEAD
-    dispatch(updateCart({ id: item._id, qty, size: item.size }));
-    setQtyModal(false);
-=======
-    console.log(item._id, qty, item.size);
-    dispatch(updateCart({ id: item._id, qty, size: item.size })); 
-    handleCloseModal();
 
->>>>>>> 5909ff3370bb161d934961fa8b667fe28a86c28a
+  const handleQtyUpdate = () => {
+    console.log(item._id, qty, item.size);
+    dispatch(updateCart({ id: item._id, qty, size: item.size }));
+    handleCloseModal();
   };
 
   //---------------------------------------------------HTML BODY----------------------------------------------------//
@@ -42,10 +29,7 @@ const QuantityModal = ( {item ,setOpenModal}) => {
       ></div>
       <div className="h-[238px] w-[310px] bg-white flex flex-col absolute  top-[35%] left-[40%]  z-[30] px-[15px] py-[15px]">
         <div className="absolute top-0 right-0 mr-2 mt-2">
-          <CloseIcon
-            className="cursor-pointer"
-            onClick={handleCloseModal}
-          />
+          <CloseIcon className="cursor-pointer" onClick={handleCloseModal} />
         </div>
         <h1 className="text-[16px] text-[#282c3f] mb-3 font-bold border-b-[1px] pb-5 border-[#dbdbdb]">
           {" "}

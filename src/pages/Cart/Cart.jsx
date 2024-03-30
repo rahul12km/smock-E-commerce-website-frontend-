@@ -9,27 +9,22 @@ import SizeModal from "../../components/modal/SizeModal";
 import QuantityModal from "../../components/modal/QuantityModal";
 import ArrowDropDownRoundedIcon from "@mui/icons-material/ArrowDropDownRounded";
 import RemoveModal from "../../components/modal/RemoveModal";
-import { useSelector, useDispatch } from "react-redux";    
+import { useSelector, useDispatch } from "react-redux";
 import { fetchCart } from "../../Actions/CartAction";
 
 const Cart = ({ setProgress }) => {
   const [empty, setEmpty] = useState(false);
   const navigate = useNavigate();
-<<<<<<< HEAD
-  const [sizeModal, setSizeModal] = useState(false);
-  const [qtyModal, setQtyModal] = useState(false);
-  const [removeModal, setRemoveModal] = useState(false);
-=======
- 
-  const[openModal, setOpenModal] = useState({
-    size:"",
-    remove:"",
-    qty:""
-  })
- 
->>>>>>> 5909ff3370bb161d934961fa8b667fe28a86c28a
 
-  useEffect(()=>{console.log(openModal)},[openModal])
+  const [openModal, setOpenModal] = useState({
+    size: "",
+    remove: "",
+    qty: "",
+  });
+
+  useEffect(() => {
+    console.log(openModal);
+  }, [openModal]);
   const { data: cartData, loading } = useSelector((state) => state.cart);
 
   const dispatch = useDispatch();
@@ -38,14 +33,12 @@ const Cart = ({ setProgress }) => {
     dispatch(fetchCart());
   }, []);
 
-
   useEffect(() => {
-   console.log(cartData)
+    console.log(cartData);
     if (loading == false) {
       if (cartData.length === 0) {
         setEmpty(true);
         setProgress(100);
-      
       } else {
         setEmpty(false);
         setProgress(100);
@@ -67,11 +60,10 @@ const Cart = ({ setProgress }) => {
             <img src={logo} alt="logo" className="" />
           </div>
           <div className="gap-2 flex flex-row my-auto  text-[15px] font-assist font-semibold  ">
-          <div className="text-[#20bd99]  tracking-[0.3em]  flex flex-col ">
-  BAG 
-  <div className="border-t-2 border-2 border-[#20bd99] "></div>
-</div>
-
+            <div className="text-[#20bd99]  tracking-[0.3em]  flex flex-col ">
+              BAG
+              <div className="border-t-2 border-2 border-[#20bd99] "></div>
+            </div>
 
             <p className="text-[#696b79]">------------</p>
             <p className="tracking-[0.3em] text-[#696b79]">ADDRESS</p>
@@ -102,17 +94,16 @@ const Cart = ({ setProgress }) => {
                   <p className="my-auto mr-3  cursor-pointer border-2 border-[#5a49e3] h-[34px] w-[128px] items-center flex justify-center text-[12px] text-[#5a49e3] rounded-md">
                     ENTER PINCODE
                   </p>
-                </div> 
- 
+                </div>
+
                 {cartData?.map((item) => (
                   <div key={item._id}>
-                    <div
-                      
-                      className="h-[173px] w-[594px] border-2 border-[#f5f5f6] mt-3 rounded-sm relative"
-                    >
+                    <div className="h-[173px] w-[594px] border-2 border-[#f5f5f6] mt-3 rounded-sm relative">
                       <div
                         className="absolute top-0 right-0 mr-2 mt-2 cursor-pointer"
-                        onClick={() =>  setOpenModal({remove:item._id,qty:"",size:""})}
+                        onClick={() =>
+                          setOpenModal({ remove: item._id, qty: "", size: "" })
+                        }
                       >
                         {" "}
                         <CloseIcon className="text-[#a1a2a8]" />
@@ -134,19 +125,30 @@ const Cart = ({ setProgress }) => {
                           <p className="text-[#94969f]  text-[12px]">
                             {item.productId.soldby}
                           </p>
-                          <div
-                            className="flex flex-row gap-3"
-                            
-                          >
-                            <p className="bg-[#f5f5f6] h-[20px] w-[73px] text-[14px] text-[#282c3f] font-semibold flex items-center justify-center cursor-pointer"
-                            onClick={() =>  setOpenModal({remove:"",qty:"",size:item._id})}>
+                          <div className="flex flex-row gap-3">
+                            <p
+                              className="bg-[#f5f5f6] h-[20px] w-[73px] text-[14px] text-[#282c3f] font-semibold flex items-center justify-center cursor-pointer"
+                              onClick={() =>
+                                setOpenModal({
+                                  remove: "",
+                                  qty: "",
+                                  size: item._id,
+                                })
+                              }
+                            >
                               Size:{item.size}
                               <ArrowDropDownRoundedIcon className="text-black" />
                             </p>
 
                             <p
                               className="bg-[#f5f5f6] h-[20px] w-[73px] text-[14px] text-[#282c3f] font-semibold flex items-center justify-center cursor-pointer"
-                              onClick={() =>  setOpenModal({remove:"",qty:item._id,size:""})}
+                              onClick={() =>
+                                setOpenModal({
+                                  remove: "",
+                                  qty: item._id,
+                                  size: "",
+                                })
+                              }
                             >
                               Qty:{item.count}
                               <ArrowDropDownRoundedIcon className="text-black" />
@@ -178,42 +180,19 @@ const Cart = ({ setProgress }) => {
                       </div>
                     </div>
 
-<<<<<<< HEAD
-                    <div className={`${sizeModal ? "flex" : "hidden"}`}>
-                      <SizeModal setSizeModal={setSizeModal} item={item} />
-                    </div>
-                    {qtyModal ? (
-                      <QuantityModal setQtyModal={setQtyModal} item={item} />
-=======
-                    {openModal.size===item._id?( <SizeModal
-                     
-                     item={item}
-                     
-                     setOpenModal={setOpenModal}
-           
-                   />):(<></>)}
-                     
-                    
-                    {openModal.qty===item.
-                    _id ? (
-                      <QuantityModal
-                         setOpenModal={setOpenModal}
-                        item={item}
-                       
-                      />
->>>>>>> 5909ff3370bb161d934961fa8b667fe28a86c28a
+                    {openModal.size === item._id ? (
+                      <SizeModal item={item} setOpenModal={setOpenModal} />
                     ) : (
                       <></>
                     )}
-                    {openModal.remove===item._id ? (
-                      <RemoveModal
-                        setOpenModal={setOpenModal}
-                        item={item}
-<<<<<<< HEAD
-=======
-                        
->>>>>>> 5909ff3370bb161d934961fa8b667fe28a86c28a
-                      />
+
+                    {openModal.qty === item._id ? (
+                      <QuantityModal setOpenModal={setOpenModal} item={item} />
+                    ) : (
+                      <></>
+                    )}
+                    {openModal.remove === item._id ? (
+                      <RemoveModal setOpenModal={setOpenModal} item={item} />
                     ) : (
                       <></>
                     )}
