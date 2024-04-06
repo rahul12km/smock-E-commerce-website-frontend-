@@ -1,5 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import bag from "../../assets/Cart.png";
 import { useNavigate } from "react-router-dom";
 import logo from "../../assets/logo.png";
@@ -11,10 +11,16 @@ import ArrowDropDownRoundedIcon from "@mui/icons-material/ArrowDropDownRounded";
 import RemoveModal from "../../components/modal/RemoveModal";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchCart } from "../../Actions/CartAction";
+import PincodeModal from "../../components/modal/PincodeModal";
+import CouponModal from "../../components/modal/CouponModal";
 
 const Cart = ({ setProgress }) => {
   const [empty, setEmpty] = useState(false);
   const navigate = useNavigate();
+
+  const [coupon, setCoupon] = useState(false);
+  const [pin, setPin] = useState(false);
+  const [avlCoupon, setAvlCoupon] = useState([]);
 
   const [openModal, setOpenModal] = useState({
     size: "",
@@ -22,9 +28,6 @@ const Cart = ({ setProgress }) => {
     qty: "",
   });
 
-  useEffect(() => {
-    console.log(openModal);
-  }, [openModal]);
   const { data: cartData, loading } = useSelector((state) => state.cart);
 
   const dispatch = useDispatch();
@@ -32,6 +35,20 @@ const Cart = ({ setProgress }) => {
   useEffect(() => {
     dispatch(fetchCart());
   }, []);
+
+  const purchasePrice = useMemo(() => {
+    return cartData?.reduce(
+      (total, item) => total + item.productId.purchasePrice * item.count,
+      0
+    );
+  }, [cartData]);
+
+  const retailPrice = useMemo(() => {
+    return cartData?.reduce(
+      (total, item) => total + item.productId.retailPrice * item.count,
+      0
+    );
+  }, [cartData]);
 
   useEffect(() => {
     console.log(cartData);
@@ -48,41 +65,14 @@ const Cart = ({ setProgress }) => {
 
   return (
     <>
-      {/* -----------------header -------------------------------------------------------------*/}
-      <header className=" h-[70px] sticky top-0 z-20 bg-white shadow-md  hover:shadow-lg">
-        <nav className="flex flex-row w-[100%]  h-[70px] justify-between">
-          <div
-            className=" w-40 p-5 cursor-pointer "
-            onClick={() => {
-              navigate("/");
-            }}
-          >
-            <img src={logo} alt="logo" className="" />
-          </div>
-          <div className="gap-2 flex flex-row my-auto  text-[15px] font-assist font-semibold  ">
-            <div className="text-[#20bd99]  tracking-[0.3em]  flex flex-col ">
-              BAG
-              <div className="border-t-2 border-2 border-[#20bd99] "></div>
-            </div>
-
-            <p className="text-[#696b79]">------------</p>
-            <p className="tracking-[0.3em] text-[#696b79]">ADDRESS</p>
-            <p className="text-[#696b79]">------------</p>
-            <p className="tracking-[0.3em] text-[#696b79]">PAYMENT</p>
-          </div>
-
-          <div className="flex justify-end my-auto gap-3 mr-7">
-            <img
-              src="https://constant.myntassets.com/checkout/assets/img/sprite-secure.png"
-              alt=""
-              className="h-[26px] w-[28px] "
-            />
-            <p className="text-[15px] text-[#535766] tracking-[1px] font-assist font-semibold pb-[2px]">
-              100% SECURE
-            </p>
-          </div>
-        </nav>
-      </header>
+      {pin && <PincodeModal setPin={setPin} />}
+      {coupon && (
+        <CouponModal
+          setCoupon={setCoupon}
+          avlCoupon={avlCoupon}
+          setAvlCoupon={setAvlCoupon}
+        />
+      )}
       {empty === false ? (
         <>
           {/*----------------------------------------------------------------- main div----------------------------------------- */}
@@ -91,7 +81,10 @@ const Cart = ({ setProgress }) => {
               <div className="flex flex-col ">
                 <div className=" pincode-adder flex pl-5 h-[68px] w-[594px] border-2 border-[#f5f5f6] justify-between mt-10 bg-[#f4f2ff] rounded-sm">
                   <p className="my-auto">Deliver to : 560047</p>
-                  <p className="my-auto mr-3  cursor-pointer border-2 border-[#5a49e3] h-[34px] w-[128px] items-center flex justify-center text-[12px] text-[#5a49e3] rounded-md">
+                  <p
+                    className="my-auto mr-3  cursor-pointer border-2 border-[#5a49e3] h-[34px] w-[128px] items-center flex justify-center text-[12px] text-[#5a49e3] rounded-md"
+                    onClick={() => setPin(true)}
+                  >
                     ENTER PINCODE
                   </p>
                 </div>
@@ -206,47 +199,77 @@ const Cart = ({ setProgress }) => {
                 <p className="text-[#535766] text-[12px] font-bold mt-10">
                   COUPONS
                 </p>
-                <div className="flex flex-row gap-3 mt-2 border-b-2 border-[#d4d4d5] pb-3 ">
-                  <SellRoundedIcon />
-                  <p className="text-[14px] text-[#282c3f] font-bold">
-                    Apply Coupons
-                  </p>
-                  <p className="border-2 border-[#5a49e3] h-[27px] w-[66px] cursor-pointer text-[#5a49e3] text-[12px] font-semibold flex justify-center items-center rounded-md hover:bg-[#f4f2ff] ">
-                    APPLY
-                  </p>
-                </div>
+                {avlCoupon.length > 0 ? (
+                  <>
+                    <div className="flex flex-row gap-3 mt-2 border-b-2 border-[#d4d4d5] pb-3 ">
+                      <SellRoundedIcon />
+                      <p className="text-[14px] text-[#282c3f] font-bold">
+                        {avlCoupon.length} Coupons Applied
+                      </p>
+                      <p
+                        className="border-2 border-[#5a49e3] h-[27px] w-[66px] cursor-pointer text-[#5a49e3] text-[12px] font-semibold flex justify-center items-center rounded-md hover:bg-[#f4f2ff] "
+                        onClick={() => setCoupon(true)}
+                      >
+                        EDIT
+                      </p>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className="flex flex-row gap-3 mt-2 border-b-2 border-[#d4d4d5] pb-3 ">
+                      <SellRoundedIcon />
+                      <p className="text-[14px] text-[#282c3f] font-bold">
+                        Apply Coupons
+                      </p>
+                      <p
+                        className="border-2 border-[#5a49e3] h-[27px] w-[66px] cursor-pointer text-[#5a49e3] text-[12px] font-semibold flex justify-center items-center rounded-md hover:bg-[#f4f2ff] "
+                        onClick={() => setCoupon(true)}
+                      >
+                        APPLY
+                      </p>
+                    </div>
+                  </>
+                )}
+
                 <p className="text-[#535766] text-[12px] font-bold mt-3 ">
                   PRICE DETAILS (1 Items)
                 </p>
                 <div className="flex flex-col gap-2">
-                  <div className="flex flex-row gap-[152px]">
+                  <div className="flex flex-row justify-between">
                     <p className="text-[14px] text-[#282c3f] font-bold mt-3">
                       Total MRP
                     </p>
-                    <p className=" text-[14px] text-[#282c3f] mt-3">₹ 1999</p>
+                    <p className=" text-[14px] text-[#282c3f] mt-3">
+                      ₹ {purchasePrice}
+                    </p>
                   </div>
 
-                  <div className="flex flex-row gap-[100px]">
+                  <div className="flex flex-row justify-between">
                     <p className="text-[14px] text-[#282c3f] font-bold mt-3">
                       Discount on MRP
                     </p>
-                    <p className=" text-[14px] text-[#03a685] mt-3">-₹ 1000</p>
+                    <p className=" text-[14px] text-[#03a685] mt-3">
+                      -₹ {purchasePrice - retailPrice}
+                    </p>
                   </div>
-                  <div className="flex flex-row gap-[55px]">
+                  <div className="flex flex-ro justify-between">
                     <p className="text-[14px] text-[#282c3f] font-bold mt-3">
                       Coupon Discount
                     </p>
-                    <p className=" text-[14px] text-[#5a49e3] mt-3">
+                    <p
+                      className=" text-[14px] text-[#5a49e3] mt-3 cursor-pointer"
+                      onClick={() => setCoupon(true)}
+                    >
                       Apply Coupon
                     </p>
                   </div>
-                  <div className="flex flex-row gap-[143px]">
+                  <div className="flex flex-row justify-between">
                     <p className="text-[14px] text-[#282c3f] font-bold mt-3">
                       Platform Fee
                     </p>
                     <p className=" text-[14px] text-[#03a685] mt-3">FREE</p>
                   </div>
-                  <div className="flex flex-row gap-[109px]">
+                  <div className="flex flex-row justify-between">
                     <p className="text-[14px] text-[#282c3f] font-bold mt-3">
                       Shipping Fee
                     </p>
@@ -257,11 +280,13 @@ const Cart = ({ setProgress }) => {
                       FREE
                     </p>
                   </div>
-                  <div className="flex flex-row gap-[136px] border-t-2 border-[#d4d4d5]  ">
+                  <div className="flex flex-row justify-between border-t-2 border-[#d4d4d5]  ">
                     <p className="text-[14px] text-[#282c3f] font-bold mt-3 ">
-                      Total Gaming
+                      Total Price
                     </p>
-                    <p className=" text-[14px] text-[#282c3f] mt-3">₹ 999</p>
+                    <p className=" text-[14px] text-[#282c3f] mt-3">
+                      ₹ {retailPrice}
+                    </p>
                   </div>
                   <button className="h-[40px] w-[270px] text-[14px] font-semibold text-white bg-[#5a49e3] flex items-center justify-center ">
                     PLACE ORDER

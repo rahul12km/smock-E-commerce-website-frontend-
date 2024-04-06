@@ -96,7 +96,7 @@ function Navbar() {
               <li
                 className="hover:text-gray-500 text-[12px] flex flex-col  items-center cursor-pointer"
                 onClick={() => {
-                  navigate("/cart");
+                  navigate("checkout/cart");
                 }}
               >
                 <ShoppingCartOutlinedIcon />

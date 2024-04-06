@@ -1,7 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-
 import Home from "./pages/Home/Home";
 import Men from "./pages/Men/Men";
 import Login from "./pages/Login/Login";
@@ -17,6 +16,10 @@ import CustomNavbar from "./components/CustomNavbar/CustomNavbar";
 import PhoneSignUP from "./components/PhoneSignUp/PhoneSignUP";
 import Erorr404 from "./pages/404/404";
 import Women from "./pages/Women/Women";
+import CouponModal from "./components/modal/CouponModal";
+import PincodeModal from "./components/modal/PincodeModal";
+import CustomHeader from "./components/CustomHeader/CustomHeader";
+import Address from "./pages/Address/Address";
 
 function App() {
   const [progress, setProgress] = useState(0);
@@ -44,12 +47,27 @@ function App() {
             />
           </Route>
 
+          <Route path="/checkout" element={<CustomHeader />}>
+            <Route path="cart" element={<Cart setProgress={setProgress} />} />
+            <Route
+              path="address"
+              element={<Address setProgress={setProgress} />}
+            />
+          </Route>
+
           <Route
             path="/login/:id"
             element={<Login setProgress={setProgress} />}
           />
 
-          <Route path="/cart" element={<Cart setProgress={setProgress} />} />
+          <Route
+            path="/coupon"
+            element={<CouponModal setProgress={setProgress} />}
+          />
+          <Route
+            path="/pin"
+            element={<PincodeModal setProgress={setProgress} />}
+          />
 
           <Route
             path="/otp"

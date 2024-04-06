@@ -25,7 +25,7 @@ const Women = ({ setProgress }) => {
       setProgress(100);
       console.log(product);
 
-      addFilter({ operand: "men", opcode: filterByFor });
+      addFilter({ operand: "women", opcode: filterByFor });
     }
     if (product.status === "error") {
       console.log("error hai bhai error hai ");
