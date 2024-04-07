@@ -2,15 +2,22 @@ import React, { useState, useEffect } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import ArrowBackIos from "@mui/icons-material/ArrowBackIos";
 import axios from "axios";
+import { backendAPI } from "../../API";
+import {useNavigate} from "react-router-dom" 
 
 const PincodeModal = ({ setPin }) => {
+  const navigate =useNavigate()
   const [pincode, setPincode] = useState("");
   const [isValid, setIsValid] = useState(false);
   const [addAddress, setAddAddress] = useState(false);
   const [pinDetail, setPinDetail] = useState({
+    name:"",
+    phoneNumber:"",
+    addressLine:"",
+    locality:"",
     pincode: "",
     state: "",
-    district: "",
+    city: "",
   });
   const pinValid = /^\d{6}$/;
 
@@ -26,7 +33,7 @@ const PincodeModal = ({ setPin }) => {
         setPinDetail((prev) => ({
           ...prev,
           state: data[0].PostOffice[0].State,
-          district: data[0].PostOffice[0].District,
+          city: data[0].PostOffice[0].District,
         }));
       } else {
         // Handle case where data or PostOffice array is empty
@@ -56,6 +63,33 @@ const PincodeModal = ({ setPin }) => {
     }
   };
 
+
+  const  handlePincodeChange=(field,e)=>{
+    const newValue =e.target.value
+    setPinDetail((prev)=>({...prev,[field]:newValue}))
+
+  }
+
+const handleAddAddress=async()=>{
+  try {
+
+    const response=  await axios.post(`${backendAPI}/api/address/add-address`,pinDetail,{
+      params: {
+        subId:"661236440774da34ed2307cc"
+      }
+    })
+    if(!response.data.message){
+      alert("Added Succesfully")
+    }else{
+      alert(response.data.message)
+    }
+    
+  } catch (error) {
+    console.log(error)
+    alert("error")
+  }
+}
+
   return (
     <>
       {addAddress === true ? (
@@ -84,11 +118,15 @@ const PincodeModal = ({ setPin }) => {
                 </p>
                 <div className="flex flex-col justify-center items-center">
                   <input
+                  onChange={(e)=>{handlePincodeChange("name",e)}}
+                    value={pinDetail.name}
                     type="text"
                     className="h-[44px] w-[391.4px] mt-3 mb-1 border-2 border-[#d5d6d9] rounded-md focus:outline-none px-2 text-[12px]"
                     placeholder="Enter Name"
                   />
                   <input
+                  onChange={(e)=>{handlePincodeChange("phoneNumber",e)}}
+                    value={pinDetail.phoneNumber}
                     type="number"
                     className="h-[44px] w-[391.4px] mt-4 mb-2 border-2 border-[#d5d6d9] rounded-md focus:outline-none px-2 text-[12px]"
                     placeholder="Enter Phone Number"
@@ -116,18 +154,22 @@ const PincodeModal = ({ setPin }) => {
                     onBlur={handleblur}
                   />
                   <input
+                  onChange={(e)=>{handlePincodeChange("addressLine",e)}}
+                     value={pinDetail.addressLine}
                     type="text"
                     className="h-[44px] w-[391.4px] mt-3 mb-1 border-2 border-[#d5d6d9] rounded-md focus:outline-none px-2 text-[12px]"
                     placeholder="Address (House No., Building, Street, Area)"
                   />
                   <input
+                    onChange={(e)=>{handlePincodeChange("locality",e)}}
+                    value={pinDetail.locality}
                     type="text"
                     className="h-[44px] w-[391.4px] mt-3 mb-1 border-2 border-[#d5d6d9] rounded-md focus:outline-none px-2 text-[12px]"
                     placeholder="Locality/Town"
                   />
                   <div className="flex  w-[391.4px] justify-between">
                     <input
-                      value={pinDetail.district}
+                      value={pinDetail.city}
                       type="text"
                       className="h-[44px] w-[48%] mt-3 mb-4 border-2 border-[#d5d6d9] rounded-md focus:outline-none px-2 text-[12px]"
                       placeholder="City/District"
@@ -151,7 +193,9 @@ const PincodeModal = ({ setPin }) => {
                 }}
               >
                 <div className="flex w-full items-center justify-center">
-                  <div className="w-full h-[40px] flex justify-center items-center bg-[#5a49e3] text-white font-bold rounded-[4px]">
+                  <div className="w-full h-[40px] flex justify-center items-center bg-[#5a49e3] text-white font-bold rounded-[4px] cursor-pointer"
+                  onClick={handleAddAddress}
+                  >
                     ADD ADDRESS
                   </div>
                 </div>
