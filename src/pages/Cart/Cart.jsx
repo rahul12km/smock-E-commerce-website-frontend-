@@ -288,7 +288,9 @@ const Cart = ({ setProgress }) => {
                       ₹ {retailPrice}
                     </p>
                   </div>
-                  <button className="h-[40px] w-[270px] text-[14px] font-semibold text-white bg-[#5a49e3] flex items-center justify-center ">
+                  <button className="h-[40px] w-[270px] text-[14px] font-semibold text-white bg-[#5a49e3] flex items-center justify-center  cursor-pointer"
+                  onClick={()=>navigate("/checkout/address")}
+                  >
                     PLACE ORDER
                   </button>
                 </div>
