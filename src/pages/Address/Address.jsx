@@ -3,6 +3,7 @@ import axios from "axios";
 import { backendAPI } from "../../API";
 import AddressModal from "../../components/modal/AddressModal"
 const Address = ({ setProgress }) => {
+  const [selectedAddress,setSelectedAddress] = useState({})
   const [addressData, setaddressData] = useState([]);
   const [display, setDisplay] = useState({
     edit: false,
@@ -64,8 +65,10 @@ const Address = ({ setProgress }) => {
             <div className="h-[202.85px] w-[639.467px] shadow-md rounded-[4px] pl-[50px] pt-[20px]  relative mt-5 border-[1px] border-[#d4d5d9]">
               <div className="absolute top-[20px] left-[20px]">
                 <input
+                  onClick={()=>{setSelectedAddress(address)}}
                   type="radio"
                   className="form-radio h-4 w-4 border-red-600 focus:ring-red-500"
+                  checked={address._id===selectedAddress?._id}
                 />
               </div>
               <p className="text-[14px] font-semibold text-[#282c3f]">
@@ -85,11 +88,11 @@ const Address = ({ setProgress }) => {
               <p className="text-[14px] mt-2 text-[#424553]">
                 • Cash on delivery available
               </p>
-              <div className="flex gap-4 mt-2 ">
-                <p className="border-[1px] border-black  text-[#282c3f] rounded-[4px] text-[12px] py-1 px-2 font-[700] flex items-center justify-center">
+              <div className={`${address._id===selectedAddress._id?"flex":"hidden"} gap-4 mt-2 animate-fadeIn`}>
+                <p className="border-[1px] border-black  text-[#282c3f] rounded-[4px] text-[12px] py-1 px-2 font-[700] flex items-center justify-center  cursor-pointer hover:border-[#5a49e3] hover:text-[#5a49e3]">
                   REMOVE
                 </p>
-                <p className="border-[1px] border-black  text-[#282c3f] rounded-[4px] text-[12px] py-1  px-2 font-[700]  flex items-center justify-center  cursor-pointer hover:" onClick={()=>handleEdit(address)}>
+                <p className="border-[1px] border-black  text-[#282c3f] rounded-[4px] text-[12px] py-1  px-2 font-[700]  flex items-center justify-center  cursor-pointer hover:border-[#5a49e3] hover:text-[#5a49e3]" onClick={()=>handleEdit(address)}>
                   EDIT
                 </p>
               </div>

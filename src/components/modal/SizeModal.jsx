@@ -20,12 +20,16 @@ const SizeModal = ({ item, setOpenModal }) => {
 
   // ----------------------------------------------------------HTML BODY-------------------------------------------//
   return (
-    <div>
+    
       <div
-        className="h-[100vh] w-full fixed left-0 right-0 top-0 z-[23] bg-[rgba(0,0,0,.5)] flex"
+        className="h-screen w-full fixed left-0 right-0 top-0 z-[23] bg-[rgba(0,0,0,.5)] flex"
         onClick={handleCloseModal}
-      ></div>
-      <div className="modal-cont h-[360px] w-[417px] z-[30] absolute  top-[25%] left-[35%]  bg-white flex  flex-col">
+      >
+      <div className="modal-cont h-[360px] w-[417px] z-[30] relative m-auto  bg-white flex  flex-col"
+              onClick={(e) => {
+          // Prevent event propagation to parent div
+          e.stopPropagation();
+        }}>
         <div className="flex  mx-auto h-[125.35px] w-[367.4px] mt-[24.8px] relative border-b-[1px] border-[#EAEAEC]">
           <div
             className="absolute right-0 top-0 cursor-pointer "
@@ -99,6 +103,7 @@ const SizeModal = ({ item, setOpenModal }) => {
         </div>
       </div>
     </div>
+    
   );
 };
 

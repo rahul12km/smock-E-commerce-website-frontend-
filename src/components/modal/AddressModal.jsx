@@ -94,6 +94,7 @@ const AddressModal = ({context,setContext,data}) => {
       );
       if (!response.data.message) {
         alert("Added Succesfully");
+        handleClose();
       } else {
         alert(response.data.message);
       }
@@ -113,7 +114,9 @@ const AddressModal = ({context,setContext,data}) => {
       })
 
       if (response.status === 200) {
+        handleClose();
         alert("updated successfully")
+        handleClose()
       }
       else{
         alert("error in updating")
@@ -143,8 +146,17 @@ const AddressModal = ({context,setContext,data}) => {
 const handleRemove=() => {}
   return (
     
-      <div className="fixed flex h-screen w-full bg-[rgba(0,0,0,.5)] z-20">
-        <div className="relative bg-white w-[439.4px] z-30 m-auto pt-2 flex flex-col rounded-[3px]">
+      <div className="fixed flex h-screen w-full bg-[rgba(0,0,0,.5)] z-20 "
+      onClick={() => {
+                handleClose()
+              }}>
+        <div className="relative bg-white w-[439.4px] z-30 m-auto pt-2 flex flex-col rounded-[3px] animate-fadeIn"
+        
+        onClick={(e) => {
+          // Prevent event propagation to parent div
+          e.stopPropagation();
+        }}
+        >
           <div className="header flex justify-between p-2 border-b-2 border-[#d5d5d9]">
 
            {location.pathname!=="/checkout/address" &&             <ArrowBackIos

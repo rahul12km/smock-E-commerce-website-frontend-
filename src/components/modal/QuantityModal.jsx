@@ -24,10 +24,14 @@ const QuantityModal = ({ item, setOpenModal }) => {
   return (
     <>
       <div
-        className="h-[100vh] w-full fixed left-0 right-0 top-0 z-[23] bg-[rgba(0,0,0,.5)] flex"
+        className="h-screen w-full fixed left-0 right-0 top-0 z-[23] bg-[rgba(0,0,0,.5)] flex"
         onClick={handleCloseModal}
-      ></div>
-      <div className="h-[238px] w-[310px] bg-white flex flex-col absolute  top-[35%] left-[40%]  z-[30] px-[15px] py-[15px]">
+      >
+      <div className="h-[238px] w-[310px] bg-white flex flex-col relative m-auto z-[30] px-[15px] py-[15px] animate-fadeIn"
+              onClick={(e) => {
+          // Prevent event propagation to parent div
+          e.stopPropagation();
+        }}>
         <div className="absolute top-0 right-0 mr-2 mt-2">
           <CloseIcon className="cursor-pointer" onClick={handleCloseModal} />
         </div>
@@ -56,6 +60,7 @@ const QuantityModal = ({ item, setOpenModal }) => {
         >
           DONE
         </button>
+      </div>
       </div>
     </>
   );

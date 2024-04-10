@@ -17,8 +17,13 @@ const CouponModal = ({ setCoupon, avlCoupon, setAvlCoupon }) => {
   };
 
   return (
-    <div className="fixed  flex h-[100vh] w-[100%]  bg-[rgba(0,0,0,.5)] z-20">
-      <div className="relative bg-white h-[447.33] w-[498.4px] z-30 m-auto pt-2 flex flex-col">
+    <div className="fixed  flex h-[100vh] w-[100%]  bg-[rgba(0,0,0,.5)] z-20"
+     onClick={() => setCoupon(false)}>
+      <div className="relative bg-white h-[447.33] w-[498.4px] z-30 m-auto pt-2 flex flex-col animate-fadeIn"
+          onClick={(e) => {
+          // Prevent event propagation to parent div
+          e.stopPropagation();
+        }}>
         <div className="header flex justify-between p-2 border-b-2 border-grey">
           <span className="ml-2 text-[#282c3f] font-semibold">
             APPLY COUPON
