@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { backendAPI } from "../../API";
-
+import AddressModal from "../../components/modal/AddressModal"
 const Address = ({ setProgress }) => {
   const [addressData, setaddressData] = useState([]);
   const [display, setDisplay] = useState({
@@ -9,6 +9,7 @@ const Address = ({ setProgress }) => {
     address: false,
   });
 
+  const [editData,setEditData] = useState({})
   const fetchAddress = async () => {
     try {
       const { data } = await axios.get(`${backendAPI}/api/address/all`, {
@@ -25,11 +26,31 @@ const Address = ({ setProgress }) => {
 
   useEffect(() => {
     fetchAddress();
-  }, []);
+  }, [display]);
   useEffect(() => {
     setProgress(100);
   }, []);
+
+  const handleClick = (x) => {
+    if (x === "address") {
+      setDisplay((prev) => ({ ...prev, edit: false, address: true }));
+    } else if (x === "edit") {
+      setDisplay((prev) => ({ ...prev, address: false, edit: true }));
+    }
+  };
+  
+  const handleEdit=(address) => {
+   handleClick("edit")
+   setEditData(address)
+
+  }
+
+
   return (
+    <>
+
+    {display.address===true?(<AddressModal context={display} setContext={setDisplay} data={null}/>):(<></>)}
+    {display.edit===true?(<AddressModal context={display} setContext={setDisplay} data={editData}/>):(<></>)}
     <div className="flex m-auto  mt-4">
       <div className="flex flex-col ">
         <p className="text-[#282c3f] text-[18px] font-[600] ">
@@ -68,7 +89,7 @@ const Address = ({ setProgress }) => {
                 <p className="border-[1px] border-black  text-[#282c3f] rounded-[4px] text-[12px] py-1 px-2 font-[700] flex items-center justify-center">
                   REMOVE
                 </p>
-                <p className="border-[1px] border-black  text-[#282c3f] rounded-[4px] text-[12px] py-1  px-2 font-[700]  flex items-center justify-center ">
+                <p className="border-[1px] border-black  text-[#282c3f] rounded-[4px] text-[12px] py-1  px-2 font-[700]  flex items-center justify-center  cursor-pointer hover:" onClick={()=>handleEdit(address)}>
                   EDIT
                 </p>
               </div>
@@ -76,11 +97,12 @@ const Address = ({ setProgress }) => {
           </>
         ))}
         <div className=" flex w-[639.467px] shadow-md rounded-[4px] h-[72px] border-[1px] border-dashed border-[#d4d5d9] mt-3 items-center ">
-          <p className="text-[#5a49e3] font-bold ml-3">+ Add new address</p>
+          <p className="text-[#5a49e3] font-bold ml-3 cursor-pointer" onClick={()=>handleClick("address")}>+ Add new address</p>
         </div>
       </div>
       <div className=""></div>
     </div>
+    </>
   );
 };
 

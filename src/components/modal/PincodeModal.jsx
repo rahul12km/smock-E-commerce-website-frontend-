@@ -10,7 +10,7 @@ const PincodeModal = ({ setPin }) => {
   const navigate = useNavigate();
   const [pincode, setPincode] = useState("");
   const [isValid, setIsValid] = useState(false);
-  const [addAddress, setAddAddress] = useState(false);
+  const [addAddress, setAddAddress] = useState({address:false});
   const [pinDetail, setPinDetail] = useState({
     name: "",
     phoneNumber: "",
@@ -34,10 +34,10 @@ const PincodeModal = ({ setPin }) => {
 
   return (
     <>
-      {addAddress === true ? (
+      {addAddress.address === true ? (
         //========================================Address=========================================//
         <>
-          <AddressModal />
+          <AddressModal context={addAddress} setContext={setAddAddress} data={null} />
         </>
       ) : (
         //============================== pincode===============================//
@@ -79,7 +79,7 @@ const PincodeModal = ({ setPin }) => {
               <div className="flex w-full items-center">
                 <div
                   className="w-full h-[40px] flex justify-center items-center border-[1px] rounded-[3px] border-[#282c3f] text-[#282c3f] font-bold cursor-pointer"
-                  onClick={() => setAddAddress(true)}
+                  onClick={() => setAddAddress({address:true})}
                 >
                   ADD NEW ADDRESS
                 </div>
