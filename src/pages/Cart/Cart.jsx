@@ -91,7 +91,7 @@ const Cart = ({ setProgress }) => {
 
                 {cartData?.map((item) => (
                   <div key={item._id}>
-                    <div className="h-[173px] w-[594px] border-2 border-[#f5f5f6] mt-3 rounded-sm relative">
+                    <div className="h-[173px] w-[594px] border-2 border-[#f5f5f6] mt-3 rounded-sm relative animate-fadeIn">
                       <div
                         className="absolute top-0 right-0 mr-2 mt-2 cursor-pointer"
                         onClick={() =>

@@ -62,7 +62,7 @@ const Address = ({ setProgress }) => {
         </p>
         {addressData?.map((address) => (
           <>
-            <div className="h-[202.85px] w-[639.467px] shadow-md rounded-[4px] pl-[50px] pt-[20px]  relative mt-5 border-[1px] border-[#d4d5d9]">
+            <div className="h-[202.85px] w-[639.467px] shadow-md rounded-[4px] pl-[50px] pt-[20px]  relative mt-5 border-[1px] border-[#d4d5d9] animate-fadeIn">
               <div className="absolute top-[20px] left-[20px]">
                 <input
                   onClick={()=>{setSelectedAddress(address)}}
@@ -99,7 +99,7 @@ const Address = ({ setProgress }) => {
             </div>
           </>
         ))}
-        <div className=" flex w-[639.467px] shadow-md rounded-[4px] h-[72px] border-[1px] border-dashed border-[#d4d5d9] mt-3 items-center ">
+        <div className=" flex w-[639.467px] shadow-md rounded-[4px] h-[72px] border-[1px] border-dashed border-[#d4d5d9] mt-3 items-center animate-fadeIn ">
           <p className="text-[#5a49e3] font-bold ml-3 cursor-pointer" onClick={()=>handleClick("address")}>+ Add new address</p>
         </div>
       </div>

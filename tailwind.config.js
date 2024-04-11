@@ -24,7 +24,7 @@ export default {
       },
       animation: {
         shake: "shake 0.3s ease-in-out 1",
-        fadeIn:"fadeIn 0.3s ease-in-out 1"
+        fadeIn:"fadeIn 0.5s ease-in-out 1"
       },
     },
   },
