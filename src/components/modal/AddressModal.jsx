@@ -4,7 +4,7 @@ import ArrowBackIos from "@mui/icons-material/ArrowBackIos";
 import axios from "axios";
 import { backendAPI } from "../../API";
 import { useNavigate } from "react-router-dom";
-const AddressModal = () => {
+const AddressModal = ({context,setContext,data}) => {
   const [pincode, setPincode] = useState("");
   const [isValid, setIsValid] = useState(false);
   const [addAddress, setAddAddress] = useState(false);
@@ -18,6 +18,21 @@ const AddressModal = () => {
     city: "",
   });
   const pinValid = /^\d{6}$/;
+
+  useEffect(()=>{
+    if(data!==null){
+      setPinDetail({
+        name: data.name,
+        phoneNumber: data.phoneNumber,
+        addressLine: data.addressLine,
+        locality: data.locality,
+        pincode:data.pincode,
+        state: data.state,
+        city: data.city,
+      })
+    }
+    console.log(location.pathname)
+  },[])
 
   const fetchpin = async () => {
     try {
@@ -79,6 +94,7 @@ const AddressModal = () => {
       );
       if (!response.data.message) {
         alert("Added Succesfully");
+        handleClose();
       } else {
         alert(response.data.message);
       }
@@ -88,24 +104,74 @@ const AddressModal = () => {
     }
   };
 
+
+   const handleUpdate=async()=>{
+    try{
+      const response= await axios.put(`${backendAPI}/api/address/update-address`,pinDetail,{
+        params:{
+         addressId:data._id
+        }
+      })
+
+      if (response.status === 200) {
+        handleClose();
+        alert("updated successfully")
+        handleClose()
+      }
+      else{
+        alert("error in updating")
+      }
+    }catch (error) {
+      console.log(error);
+      alert("error");
+    }
+   }
+
+  const handleClose=()=>{
+    setContext({address:false,edit:false})
+  }
+
+ const  handleUpdateAndAdd=()=>{
+
+    if(context.edit===true){
+      handleUpdate()
+    }
+    else if(context.address===true){
+   handleAddAddress()
+    }
+  }
+
+
+
+const handleRemove=() => {}
   return (
-    <div>
-      {" "}
-      <div className="fixed flex h-screen w-full bg-[rgba(0,0,0,.5)] z-30">
-        <div className="relative bg-white w-[439.4px] z-30 m-auto pt-2 flex flex-col rounded-[3px]">
+    
+      <div className="fixed flex h-screen w-full bg-[rgba(0,0,0,.5)] z-20 "
+      onClick={() => {
+                handleClose()
+              }}>
+        <div className="relative bg-white w-[439.4px] z-30 m-auto pt-2 flex flex-col rounded-[3px] animate-fadeIn"
+        
+        onClick={(e) => {
+          // Prevent event propagation to parent div
+          e.stopPropagation();
+        }}
+        >
           <div className="header flex justify-between p-2 border-b-2 border-[#d5d5d9]">
-            <ArrowBackIos
+
+           {location.pathname!=="/checkout/address" &&             <ArrowBackIos
               className="cursor-pointer"
               onClick={() => {
-                setAddAddress(false);
+                handleClose()
               }}
-            />
+            />}         
+           
             <span className="ml-2  text-[14px] text-[#282c3f] font-[700]">
-              ADD NEW ADDRESS
+              {context.edit===true?"Edit":"ADD NEW ADDRESS"}
             </span>
             <CloseIcon
-              onClick={() => {
-                console.log("");
+               onClick={() => {
+                handleClose()
               }}
               className="cursor-pointer"
             />
@@ -201,15 +267,15 @@ const AddressModal = () => {
             <div className="flex w-full items-center justify-center">
               <div
                 className="w-full h-[40px] flex justify-center items-center bg-[#5a49e3] text-white font-bold rounded-[4px] cursor-pointer"
-                onClick={handleAddAddress}
+                onClick={handleUpdateAndAdd}
               >
-                ADD ADDRESS
+             {context.edit===true?"UPDATE":"ADD ADDRESS"}
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    
   );
 };
 

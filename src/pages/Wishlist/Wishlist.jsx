@@ -47,7 +47,7 @@ const Wishlist = ({ setProgress }) => {
         <div className="grid grid-cols-5 gap-10 ">
           {WishlistData?.map((item) => (
             <div
-              className=" card flex flex-col  border-[#e9e9eb] border-[1px]  relative"
+              className=" card flex flex-col  border-[#e9e9eb] border-[1px]  relative animate-fadeIn"
               key={item._id}
             >
               <div

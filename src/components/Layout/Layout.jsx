@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { addCart } from "../../Actions/CartAction";
 import { useDispatch } from "react-redux";
 import { addWishlist, fetchWishlist } from "../../Actions/WishlistAction";
+import LazyLoad from "react-lazyload";
 
 const Layout = ({ Data }) => {
   const [Typelist, setTypelist] = useState([]);
@@ -365,7 +366,8 @@ const Layout = ({ Data }) => {
         <div className="content-box px-[50px] py-5 w-full h-full">
           <div className="item-cards grid grid-cols-4  gap-x-7 gap-y-10 ">
             {sortFnc(data)?.map((item, i) => (
-              <div key={item._id} className="item-card flex flex-col group ">
+              <LazyLoad key={item._id} height={200} offset={100}>
+              <div key={item._id} className="item-card flex flex-col group animate-fadeIn ">
                 <div className="img-box h-[300px] relative overflow-hidden ">
                   <img
                     src={item.image[0]}
@@ -432,6 +434,7 @@ const Layout = ({ Data }) => {
                   </div>
                 </div>
               </div>
+              </LazyLoad>
             ))}
           </div>
         </div>

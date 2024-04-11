@@ -10,7 +10,7 @@ const PincodeModal = ({ setPin }) => {
   const navigate = useNavigate();
   const [pincode, setPincode] = useState("");
   const [isValid, setIsValid] = useState(false);
-  const [addAddress, setAddAddress] = useState(false);
+  const [addAddress, setAddAddress] = useState({address:false});
   const [pinDetail, setPinDetail] = useState({
     name: "",
     phoneNumber: "",
@@ -34,15 +34,21 @@ const PincodeModal = ({ setPin }) => {
 
   return (
     <>
-      {addAddress === true ? (
+      {addAddress.address === true ? (
         //========================================Address=========================================//
         <>
-          <AddressModal />
+          <AddressModal context={addAddress} setContext={setAddAddress} data={null} />
         </>
       ) : (
         //============================== pincode===============================//
-        <div className="fixed flex h-screen w-full bg-[rgba(0,0,0,.5)] z-20">
-          <div className="relative bg-white w-[439.4px] z-30 m-auto pt-2 flex flex-col rounded-[3px]">
+        <div className="fixed flex h-screen w-full bg-[rgba(0,0,0,.5)] z-20"
+         onClick={() => setPin(false)}
+         >
+          <div className="relative bg-white w-[439.4px] z-30 m-auto pt-2 flex flex-col rounded-[3px] animate-fadeIn"
+              onClick={(e) => {
+          // Prevent event propagation to parent div
+          e.stopPropagation();
+        }}>
             <div className="header flex justify-between p-2 border-b-2 border-gray">
               <span className="ml-2 text-[#282c3f] font-semibold">
                 Enter Delivery Details
@@ -79,7 +85,7 @@ const PincodeModal = ({ setPin }) => {
               <div className="flex w-full items-center">
                 <div
                   className="w-full h-[40px] flex justify-center items-center border-[1px] rounded-[3px] border-[#282c3f] text-[#282c3f] font-bold cursor-pointer"
-                  onClick={() => setAddAddress(true)}
+                  onClick={() => setAddAddress({address:true})}
                 >
                   ADD NEW ADDRESS
                 </div>

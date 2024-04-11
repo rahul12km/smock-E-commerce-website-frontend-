@@ -17,9 +17,14 @@ export default {
           "75%": { transform: "translateX(-8px) rotate(-3deg)" },
           "100%": { transform: "translateX(0)" },
         },
+        fadeIn:{
+          "0%":{opacity:0},
+          "100%":{opacity:1}
+        }
       },
       animation: {
         shake: "shake 0.3s ease-in-out 1",
+        fadeIn:"fadeIn 0.5s ease-in-out 1"
       },
     },
   },

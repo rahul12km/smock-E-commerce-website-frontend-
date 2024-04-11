@@ -6,6 +6,8 @@ import { Outlet } from "react-router-dom";
 const CustomHeader = () => {
   const navigate = useNavigate();
 
+  console.log(location.pathname)
+
   return (
     <div className="flex flex-col">
       <header className=" h-[70px] w-full sticky top-0 z-10 bg-white shadow-md  hover:shadow-lg">
