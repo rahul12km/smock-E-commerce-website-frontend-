@@ -4,7 +4,7 @@ import ArrowBackIos from "@mui/icons-material/ArrowBackIos";
 import axios from "axios";
 import { backendAPI } from "../../API";
 import { useNavigate } from "react-router-dom";
-const AddressModal = ({context,setContext,data}) => {
+const AddressModal = ({ context, setContext, data }) => {
   const [pincode, setPincode] = useState("");
   const [isValid, setIsValid] = useState(false);
   const [addAddress, setAddAddress] = useState(false);
@@ -19,20 +19,20 @@ const AddressModal = ({context,setContext,data}) => {
   });
   const pinValid = /^\d{6}$/;
 
-  useEffect(()=>{
-    if(data!==null){
+  useEffect(() => {
+    if (data !== null) {
       setPinDetail({
         name: data.name,
         phoneNumber: data.phoneNumber,
         addressLine: data.addressLine,
         locality: data.locality,
-        pincode:data.pincode,
+        pincode: data.pincode,
         state: data.state,
         city: data.city,
-      })
+      });
     }
-    console.log(location.pathname)
-  },[])
+    console.log(location.pathname);
+  }, []);
 
   const fetchpin = async () => {
     try {
@@ -104,178 +104,177 @@ const AddressModal = ({context,setContext,data}) => {
     }
   };
 
-
-   const handleUpdate=async()=>{
-    try{
-      const response= await axios.put(`${backendAPI}/api/address/update-address`,pinDetail,{
-        params:{
-         addressId:data._id
+  const handleUpdate = async () => {
+    try {
+      const response = await axios.put(
+        `${backendAPI}/api/address/update-address`,
+        pinDetail,
+        {
+          params: {
+            addressId: data._id,
+          },
         }
-      })
+      );
 
       if (response.status === 200) {
         handleClose();
-        alert("updated successfully")
-        handleClose()
+        alert("updated successfully");
+        handleClose();
+      } else {
+        alert("error in updating");
       }
-      else{
-        alert("error in updating")
-      }
-    }catch (error) {
+    } catch (error) {
       console.log(error);
       alert("error");
     }
-   }
+  };
 
-  const handleClose=()=>{
-    setContext({address:false,edit:false})
-  }
+  const handleClose = () => {
+    setContext({ address: false, edit: false });
+  };
 
- const  handleUpdateAndAdd=()=>{
-
-    if(context.edit===true){
-      handleUpdate()
+  const handleUpdateAndAdd = () => {
+    if (context.edit === true) {
+      handleUpdate();
+    } else if (context.address === true) {
+      handleAddAddress();
     }
-    else if(context.address===true){
-   handleAddAddress()
-    }
-  }
+  };
 
-
-
-const handleRemove=() => {}
+  const handleRemove = () => {};
   return (
-    
-      <div className="fixed flex h-screen w-full bg-[rgba(0,0,0,.5)] z-20 "
+    <div
+      className="fixed flex h-screen w-full bg-[rgba(0,0,0,.5)] z-20 "
       onClick={() => {
-                handleClose()
-              }}>
-        <div className="relative bg-white w-[439.4px] z-30 m-auto pt-2 flex flex-col rounded-[3px] animate-fadeIn"
-        
+        handleClose();
+      }}
+    >
+      <div
+        className="relative bg-white w-[439.4px] z-30 m-auto pt-2 flex flex-col rounded-[3px] animate-fadeIn"
         onClick={(e) => {
           // Prevent event propagation to parent div
           e.stopPropagation();
         }}
-        >
-          <div className="header flex justify-between p-2 border-b-2 border-[#d5d5d9]">
-
-           {location.pathname!=="/checkout/address" &&             <ArrowBackIos
+      >
+        <div className="header flex justify-between p-2 border-b-2 border-[#d5d5d9]">
+          {location.pathname !== "/checkout/address" && (
+            <ArrowBackIos
               className="cursor-pointer"
               onClick={() => {
-                handleClose()
+                handleClose();
               }}
-            />}         
-           
-            <span className="ml-2  text-[14px] text-[#282c3f] font-[700]">
-              {context.edit===true?"Edit":"ADD NEW ADDRESS"}
-            </span>
-            <CloseIcon
-               onClick={() => {
-                handleClose()
+            />
+          )}
+
+          <span className="ml-2  text-[14px] text-[#282c3f] font-[700]">
+            {context.edit === true ? "Edit" : "ADD NEW ADDRESS"}
+          </span>
+          <CloseIcon
+            onClick={() => {
+              handleClose();
+            }}
+            className="cursor-pointer"
+          />
+        </div>
+        <div className=" scroll ">
+          <p className="text-[#282c3f] text-[12px] ml-[24px] mt-3 font-bold">
+            CONTACT DETAILS
+          </p>
+          <div className="flex flex-col justify-center items-center">
+            <input
+              onChange={(e) => {
+                handlePincodeChange("name", e);
               }}
-              className="cursor-pointer"
+              value={pinDetail.name}
+              type="text"
+              className="h-[44px] w-[391.4px] mt-3 mb-1 border-2 border-[#d5d6d9] rounded-md focus:outline-none px-2 text-[12px]"
+              placeholder="Enter Name"
+            />
+            <input
+              onChange={(e) => {
+                handlePincodeChange("phoneNumber", e);
+              }}
+              value={pinDetail.phoneNumber}
+              type="number"
+              className="h-[44px] w-[391.4px] mt-4 mb-2 border-2 border-[#d5d6d9] rounded-md focus:outline-none px-2 text-[12px]"
+              placeholder="Enter Phone Number"
+              style={{
+                WebkitAppearance: "none", // Hide default appearance
+                MozAppearance: "textfield", // Hide default appearance in Firefox
+              }}
             />
           </div>
-          <div className=" scroll ">
-            <p className="text-[#282c3f] text-[12px] ml-[24px] mt-3 font-bold">
-              CONTACT DETAILS
-            </p>
-            <div className="flex flex-col justify-center items-center">
+          <p className="text-[#282c3f] text-[12px] ml-[24px] mt-3 font-bold">
+            ADDRESS
+          </p>
+          <div className="flex flex-col justify-center items-center ">
+            <input
+              type="text"
+              className="h-[44px] w-[391.4px] mt-3 mb-1 border-2 border-[#d5d6d9] rounded-md focus:outline-none px-2 text-[12px]"
+              placeholder="Enter Pincode"
+              value={pinDetail.pincode}
+              onChange={(e) =>
+                setPinDetail((prev) => ({
+                  ...prev,
+                  pincode: e.target.value,
+                }))
+              }
+              onBlur={handleblur}
+            />
+            <input
+              onChange={(e) => {
+                handlePincodeChange("addressLine", e);
+              }}
+              value={pinDetail.addressLine}
+              type="text"
+              className="h-[44px] w-[391.4px] mt-3 mb-1 border-2 border-[#d5d6d9] rounded-md focus:outline-none px-2 text-[12px]"
+              placeholder="Address (House No., Building, Street, Area)"
+            />
+            <input
+              onChange={(e) => {
+                handlePincodeChange("locality", e);
+              }}
+              value={pinDetail.locality}
+              type="text"
+              className="h-[44px] w-[391.4px] mt-3 mb-1 border-2 border-[#d5d6d9] rounded-md focus:outline-none px-2 text-[12px]"
+              placeholder="Locality/Town"
+            />
+            <div className="flex  w-[391.4px] justify-between">
               <input
-                onChange={(e) => {
-                  handlePincodeChange("name", e);
-                }}
-                value={pinDetail.name}
+                value={pinDetail.city}
                 type="text"
-                className="h-[44px] w-[391.4px] mt-3 mb-1 border-2 border-[#d5d6d9] rounded-md focus:outline-none px-2 text-[12px]"
-                placeholder="Enter Name"
+                className="h-[44px] w-[48%] mt-3 mb-4 border-2 border-[#d5d6d9] rounded-md focus:outline-none px-2 text-[12px]"
+                placeholder="City/District"
+                readOnly
               />
-              <input
-                onChange={(e) => {
-                  handlePincodeChange("phoneNumber", e);
-                }}
-                value={pinDetail.phoneNumber}
-                type="number"
-                className="h-[44px] w-[391.4px] mt-4 mb-2 border-2 border-[#d5d6d9] rounded-md focus:outline-none px-2 text-[12px]"
-                placeholder="Enter Phone Number"
-                style={{
-                  WebkitAppearance: "none", // Hide default appearance
-                  MozAppearance: "textfield", // Hide default appearance in Firefox
-                }}
-              />
-            </div>
-            <p className="text-[#282c3f] text-[12px] ml-[24px] mt-3 font-bold">
-              ADDRESS
-            </p>
-            <div className="flex flex-col justify-center items-center ">
               <input
                 type="text"
-                className="h-[44px] w-[391.4px] mt-3 mb-1 border-2 border-[#d5d6d9] rounded-md focus:outline-none px-2 text-[12px]"
-                placeholder="Enter Pincode"
-                value={pinDetail.pincode}
-                onChange={(e) =>
-                  setPinDetail((prev) => ({
-                    ...prev,
-                    pincode: e.target.value,
-                  }))
-                }
-                onBlur={handleblur}
+                className="h-[44px] w-[48%] mt-3 mb-4 border-2 border-[#d5d6d9] rounded-md focus:outline-none px-2 text-[12px]"
+                placeholder="State"
+                value={pinDetail.state}
+                readOnly
               />
-              <input
-                onChange={(e) => {
-                  handlePincodeChange("addressLine", e);
-                }}
-                value={pinDetail.addressLine}
-                type="text"
-                className="h-[44px] w-[391.4px] mt-3 mb-1 border-2 border-[#d5d6d9] rounded-md focus:outline-none px-2 text-[12px]"
-                placeholder="Address (House No., Building, Street, Area)"
-              />
-              <input
-                onChange={(e) => {
-                  handlePincodeChange("locality", e);
-                }}
-                value={pinDetail.locality}
-                type="text"
-                className="h-[44px] w-[391.4px] mt-3 mb-1 border-2 border-[#d5d6d9] rounded-md focus:outline-none px-2 text-[12px]"
-                placeholder="Locality/Town"
-              />
-              <div className="flex  w-[391.4px] justify-between">
-                <input
-                  value={pinDetail.city}
-                  type="text"
-                  className="h-[44px] w-[48%] mt-3 mb-4 border-2 border-[#d5d6d9] rounded-md focus:outline-none px-2 text-[12px]"
-                  placeholder="City/District"
-                  readOnly
-                />
-                <input
-                  type="text"
-                  className="h-[44px] w-[48%] mt-3 mb-4 border-2 border-[#d5d6d9] rounded-md focus:outline-none px-2 text-[12px]"
-                  placeholder="State"
-                  value={pinDetail.state}
-                  readOnly
-                />
-              </div>
             </div>
           </div>
+        </div>
 
-          <div
-            className="footer p-2 flex h-[60px]"
-            style={{
-              boxShadow: "0px -1px 4px 0px rgba(0, 0, 0, 0.5)",
-            }}
-          >
-            <div className="flex w-full items-center justify-center">
-              <div
-                className="w-full h-[40px] flex justify-center items-center bg-[#5a49e3] text-white font-bold rounded-[4px] cursor-pointer"
-                onClick={handleUpdateAndAdd}
-              >
-             {context.edit===true?"UPDATE":"ADD ADDRESS"}
-              </div>
+        <div
+          className="footer p-2 flex h-[60px]"
+          style={{
+            boxShadow: "0px -1px 4px 0px rgba(0, 0, 0, 0.5)",
+          }}
+        >
+          <div className="flex w-full items-center justify-center">
+            <div
+              className="w-full h-[40px] flex justify-center items-center bg-[#5a49e3] text-white font-bold rounded-[4px] cursor-pointer"
+              onClick={handleUpdateAndAdd}
+            >
+              {context.edit === true ? "UPDATE" : "ADD ADDRESS"}
             </div>
           </div>
         </div>
       </div>
-    
+    </div>
   );
 };
 
