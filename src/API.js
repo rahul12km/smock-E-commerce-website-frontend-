@@ -1,1 +1,1 @@
-export const backendAPI = "http://localhost:8000";
+export const backendAPI = "https://smock-e-commerce-website-backend-seven.vercel.app";
