@@ -72,15 +72,15 @@ const AddressModal = ({ context, setContext, data }) => {
     }
   };
 
-  const handlePincode = (e) => {
-    const newPincode = e.target.value;
-    setPincode(newPincode);
-    if (newPincode.length === 6 && pinValid.test(newPincode) === true) {
-      setIsValid(true);
-    } else {
-      setIsValid(false);
-    }
-  };
+  // const handlePincode = (e) => {
+  //   const newPincode = e.target.value;
+  //   setPincode(newPincode);
+  //   if (newPincode.length === 6 && pinValid.test(newPincode) === true) {
+  //     setIsValid(true);
+  //   } else {
+  //     setIsValid(false);
+  //   }
+  // };
 
   const handlePincodeChange = (field, e) => {
     const newValue = e.target.value;
