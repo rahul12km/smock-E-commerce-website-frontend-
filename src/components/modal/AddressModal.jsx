@@ -124,14 +124,14 @@ const AddressModal = ({ context, setContext, data }) => {
 
       if (response.status === 200) {
         handleClose();
-        alert("updated successfully");
+        toast.success("updated successfully",toastOption);
         handleClose();
       } else {
         alert("error in updating");
       }
     } catch (error) {
       console.log(error);
-      alert("error");
+      toast.error("error in updating",toastOption);
     }
   };
 
@@ -155,6 +155,7 @@ const AddressModal = ({ context, setContext, data }) => {
         handleClose();
       }}
     >
+    <Toaster/>
       <div
         className="relative bg-white w-[439.4px] z-30 m-auto pt-2 flex flex-col rounded-[3px] animate-fadeIn"
         onClick={(e) => {
