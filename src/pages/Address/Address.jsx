@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { backendAPI } from "../../API";
 import AddressModal from "../../components/modal/AddressModal";
+import { Toaster, toast } from 'react-hot-toast';
+
+
 const Address = ({ setProgress }) => {
   const [selectedAddress, setSelectedAddress] = useState({});
   const [addressData, setaddressData] = useState([]);
@@ -11,6 +14,11 @@ const Address = ({ setProgress }) => {
   });
 
   const [editData, setEditData] = useState({});
+
+  const toastOption={
+    duration: 4000,
+    position: 'top-center',
+  }
   const fetchAddress = async () => {
     try {
       const { data } = await axios.get(`${backendAPI}/api/address/all`, {
@@ -48,17 +56,17 @@ const Address = ({ setProgress }) => {
 
   const handleDelete = async (id) => {
     try {
-      console.log(id);
-      const { data } = await axios.delete(`${backendAPI}/api/address/delete`, {
+   
+      const res = await axios.delete(`${backendAPI}/api/address/delete`, {
         params: {
           addressId: id,
           subId: "661236440774da34ed2307cc",
         },
       });
-      console.log(data);
-      if (data.status === 200) {
+  
+      if (res.status === 200) {
         setaddressData((prev) => prev.filter((item) => item._id !== id));
-        alert(data.message);
+        toast.success("Deleted",toastOption)
       }
     } catch (error) {
       console.log(error);
@@ -67,6 +75,7 @@ const Address = ({ setProgress }) => {
 
   return (
     <>
+    <Toaster/>
       {display.address === true ? (
         <AddressModal context={display} setContext={setDisplay} data={null} />
       ) : (

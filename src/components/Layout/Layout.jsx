@@ -9,6 +9,7 @@ import { addCart } from "../../Actions/CartAction";
 import { useDispatch } from "react-redux";
 import { addWishlist, fetchWishlist } from "../../Actions/WishlistAction";
 import LazyLoad from "react-lazyload";
+import { Toaster, toast } from 'react-hot-toast';
 
 const Layout = ({ Data }) => {
   const [Typelist, setTypelist] = useState([]);
@@ -24,6 +25,12 @@ const Layout = ({ Data }) => {
     { id: 3, min: 2000, max: 5000 },
     { id: 4, min: 5000, max: 10000 },
   ];
+
+  const toastOption={
+    duration: 4000,
+    position: 'top-center',
+  }
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [selected, setSelected] = useState({
@@ -130,6 +137,8 @@ const Layout = ({ Data }) => {
       size: "",
     };
     dispatch(addCart(body));
+    toast.success("Added to Cart",toastOption)
+
   };
 
   const addtoWishlistfnc = (id) => {
@@ -138,6 +147,7 @@ const Layout = ({ Data }) => {
       userId: "65f57ed8b82e228293243a64",
     };
     dispatch(addWishlist(body));
+    toast.success("Added to Wishlist",toastOption)
   };
 
   //==========================================================UseEffects=========================================================//
@@ -151,6 +161,7 @@ const Layout = ({ Data }) => {
 
   return (
     <div className="main-box flex flex-col">
+    <Toaster/>
       {/* <Navbar /> */}
 
       <div className="flex flex-row  justify-end py-3 mr-[50px]">

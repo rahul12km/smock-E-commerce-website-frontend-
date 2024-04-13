@@ -4,6 +4,7 @@ import ArrowBackIos from "@mui/icons-material/ArrowBackIos";
 import axios from "axios";
 import { backendAPI } from "../../API";
 import { useNavigate } from "react-router-dom";
+import { Toaster, toast } from 'react-hot-toast';
 const AddressModal = ({ context, setContext, data }) => {
   const [pincode, setPincode] = useState("");
   const [isValid, setIsValid] = useState(false);
@@ -18,6 +19,11 @@ const AddressModal = ({ context, setContext, data }) => {
     city: "",
   });
   const pinValid = /^\d{6}$/;
+
+  const toastOption={
+    duration: 4000,
+    position: 'top-center',
+  }
 
   useEffect(() => {
     if (data !== null) {
@@ -93,14 +99,14 @@ const AddressModal = ({ context, setContext, data }) => {
         }
       );
       if (!response.data.message) {
-        alert("Added Succesfully");
+        toast.success("Added",toastOption)
         handleClose();
       } else {
-        alert(response.data.message);
+        toast.error(response.data.message,toastOption);
       }
     } catch (error) {
       console.log(error);
-      alert("error");
+      toast.error("error",toastOption);
     }
   };
 
@@ -118,14 +124,14 @@ const AddressModal = ({ context, setContext, data }) => {
 
       if (response.status === 200) {
         handleClose();
-        alert("updated successfully");
+        toast.success("updated successfully",toastOption);
         handleClose();
       } else {
         alert("error in updating");
       }
     } catch (error) {
       console.log(error);
-      alert("error");
+      toast.error("error in updating",toastOption);
     }
   };
 
@@ -149,6 +155,7 @@ const AddressModal = ({ context, setContext, data }) => {
         handleClose();
       }}
     >
+    <Toaster/>
       <div
         className="relative bg-white w-[439.4px] z-30 m-auto pt-2 flex flex-col rounded-[3px] animate-fadeIn"
         onClick={(e) => {
