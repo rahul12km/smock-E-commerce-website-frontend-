@@ -3,6 +3,7 @@ import axios from "axios";
 import { backendAPI } from "../../API";
 import AddressModal from "../../components/modal/AddressModal";
 import { Toaster, toast } from "react-hot-toast";
+import Cookies from  "js-cookie"
 
 const Address = ({ setProgress }) => {
   const [selectedAddress, setSelectedAddress] = useState({});
@@ -11,6 +12,8 @@ const Address = ({ setProgress }) => {
     edit: false,
     address: false,
   });
+  const accessToken =Cookies.get('access_token');
+
 
   const [editData, setEditData] = useState({});
 
@@ -21,9 +24,9 @@ const Address = ({ setProgress }) => {
   const fetchAddress = async () => {
     try {
       const { data } = await axios.get(`${backendAPI}/api/address/all`, {
-        params: {
-          subId: "661236440774da34ed2307cc",
-        },
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
       });
 
       setaddressData(data);
@@ -58,8 +61,12 @@ const Address = ({ setProgress }) => {
       const res = await axios.delete(`${backendAPI}/api/address/delete`, {
         params: {
           addressId: id,
-          subId: "661236440774da34ed2307cc",
+         
         },
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
+
       });
 
       if (res.status === 200) {

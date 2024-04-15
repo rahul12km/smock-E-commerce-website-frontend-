@@ -12,12 +12,37 @@ import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import LogindropOption from "../DropOptions/LogindropOption";
+import Cookies from 'js-cookie';
+import { Toaster, toast } from "react-hot-toast";
 
 function Navbar() {
+  const accessToken=Cookies.get('access_token');
   const [option, setOption] = useState("");
   const navigate = useNavigate();
   const data = ["men", "women", "kids", "sports", "sales"];
   const [dropLogin, setDropLogin] = useState(false);
+  const toastOption = {
+    duration: 4000,
+    position: "top-center",
+  };
+
+
+  const handleCartClick = () => {
+   if(!accessToken){
+    toast.success("Login Please",toastOption)
+   }else{
+    navigate("checkout/cart")
+   }
+
+  }
+
+  const handleWishList= () => {
+    if(!accessToken){
+      toast.success("Login Please",toastOption)
+     }else{
+      navigate("/wishlist")
+     }
+  }
 
   return (
     <>
@@ -30,6 +55,7 @@ function Navbar() {
           </div>
 
           <div className="">
+          <Toaster/>
             <div className="flex flex-row gap-5 mx-auto  pt-[23px]  ml-[100px]">
               {data?.map((e, i) => (
                 <div
@@ -100,18 +126,14 @@ function Navbar() {
               </li>
               <li
                 className="hover:text-gray-500 text-[12px] flex flex-col items-center cursor-pointer"
-                onClick={() => {
-                  navigate("/wishlist");
-                }}
+                onClick={handleWishList}
               >
                 <FavoriteBorderOutlinedIcon />
                 Wishlist
               </li>
               <li
                 className="hover:text-gray-500 text-[12px] flex flex-col  items-center cursor-pointer"
-                onClick={() => {
-                  navigate("checkout/cart");
-                }}
+                onClick={handleCartClick}
               >
                 <ShoppingCartOutlinedIcon />
                 Cart
