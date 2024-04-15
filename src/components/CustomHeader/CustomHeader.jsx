@@ -33,7 +33,7 @@ const CustomHeader = () => {
             </NavLink>
             <p className="text-[#696b79]">------------</p>
             <NavLink
-              to="/checkout/address"
+              to="checkout/address"
               className={({ isActive }) =>
                 isActive
                   ? "text-[#20bd99] border-b-2  border-[#20bd99]  tracking-[0.3em]"

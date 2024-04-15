@@ -323,9 +323,9 @@ const Cart = ({ setProgress }) => {
                 <p
                   className="text-[#5a49e3] font-bold cursor-pointer text-[14px]"
                   onClick={() => {
-                    navigate("/login");
+                    navigate("/wishlist");
                   }}
-                >
+                > 
                   ADD ITEMS TO WISHLIST
                 </p>
               </div>
