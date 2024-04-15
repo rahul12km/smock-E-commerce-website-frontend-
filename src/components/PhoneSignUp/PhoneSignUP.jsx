@@ -3,6 +3,9 @@ import React, { useState, useRef } from "react";
 import { auth } from "../../firebase";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import PhoneInput from "react-phone-input-2";
+import { backendAPI } from "../../API";
+import axios from "axios";
+import Cookies from 'js-cookie';
 
 import "react-phone-input-2/lib/material.css";
 
@@ -29,7 +32,7 @@ const PhoneSignUP = () => {
     );
     recaptchaVerifier.render();
 
-    return signInWithPhoneNumber(auth, number, recaptchaVerifier);
+    // return signInWithPhoneNumber(auth, number, recaptchaVerifier);
   };
 
   const onSignup = async () => {
@@ -61,12 +64,28 @@ const PhoneSignUP = () => {
     setLoading(true);
     if (otp === "" || otp === null) return;
     try {
-      await result.confirm(otp);
+      // await result.confirm(otp);/
+     await phoneRegisterLogin()
       navigate("/");
     } catch (err) {
       console.log(err.message);
     }
   };
+
+  const phoneRegisterLogin = async () => {
+    try {
+      
+      const response= await axios.post(`${backendAPI}/api/subscribers/register`,{
+        phone:number.slice(2)
+      })
+      if(response.status==201){
+      
+       Cookies.set('access_token',response.data)
+      }
+    } catch (error) {
+      alert(error.message);
+    }
+  }
 
   // ---------------------------------------------------html body phonesignup--------------------------------------------------
 

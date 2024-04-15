@@ -132,7 +132,6 @@ const Layout = ({ Data }) => {
   const addtocartfnc = (id) => {
     const body = {
       productId: id,
-      userId: "65f57ed8b82e228293243a64",
       count: 1,
       size: "",
     };
@@ -144,7 +143,7 @@ const Layout = ({ Data }) => {
   const addtoWishlistfnc = (id) => {
     const body = {
       productId: id,
-      userId: "65f57ed8b82e228293243a64",
+      userId: "661cd858ffeb2b9cdae21913",
     };
     dispatch(addWishlist(body));
     toast.success("Added to Wishlist",toastOption)

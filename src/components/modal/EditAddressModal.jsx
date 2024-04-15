@@ -18,6 +18,8 @@ const EditAddressModal = () => {
     city: "",
   });
   const pinValid = /^\d{6}$/;
+  const accessToken =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWJzY3JpYmVyIjp7ImlkIjoiNjYxY2U3ZGU5M2M0MGM0NmZlODFiM2RhIiwibmFtZSI6IiJ9LCJpYXQiOjE3MTMxNzA2MTYsImV4cCI6MTcxMzc3NTQxNn0.zZDduKggH-ZoBRwHV_SVmUSbUQqGBrddfev5S2vYvn4";
 
   const fetchpin = async () => {
     try {
@@ -72,8 +74,8 @@ const EditAddressModal = () => {
         `${backendAPI}/api/address/add-address`,
         pinDetail,
         {
-          params: {
-            subId: "661236440774da34ed2307cc",
+          headers: {
+            Authorization: `Bearer` + " " + accessToken,
           },
         }
       );

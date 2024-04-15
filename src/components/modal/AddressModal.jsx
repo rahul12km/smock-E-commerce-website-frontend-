@@ -4,7 +4,8 @@ import ArrowBackIos from "@mui/icons-material/ArrowBackIos";
 import axios from "axios";
 import { backendAPI } from "../../API";
 import { useNavigate } from "react-router-dom";
-import { Toaster, toast } from 'react-hot-toast';
+import { Toaster, toast } from "react-hot-toast";
+import Cookies from 'js-cookie';
 const AddressModal = ({ context, setContext, data }) => {
   const [pincode, setPincode] = useState("");
   const [isValid, setIsValid] = useState(false);
@@ -20,10 +21,13 @@ const AddressModal = ({ context, setContext, data }) => {
   });
   const pinValid = /^\d{6}$/;
 
-  const toastOption={
+  const accessToken =Cookies.get('access_token');
+  
+
+  const toastOption = {
     duration: 4000,
-    position: 'top-center',
-  }
+    position: "top-right",
+  };
 
   useEffect(() => {
     if (data !== null) {
@@ -93,20 +97,20 @@ const AddressModal = ({ context, setContext, data }) => {
         `${backendAPI}/api/address/add-address`,
         pinDetail,
         {
-          params: {
-            subId: "661236440774da34ed2307cc",
+          headers: {
+            Authorization: `Bearer` + " " + accessToken,
           },
         }
       );
       if (!response.data.message) {
-        toast.success("Added",toastOption)
+        toast.success("Added", toastOption);
         handleClose();
       } else {
-        toast.error(response.data.message,toastOption);
+        toast.error(response.data.message, toastOption);
       }
     } catch (error) {
       console.log(error);
-      toast.error("error",toastOption);
+      toast.error("error", toastOption);
     }
   };
 
@@ -119,19 +123,22 @@ const AddressModal = ({ context, setContext, data }) => {
           params: {
             addressId: data._id,
           },
+          headers: {
+            Authorization: `Bearer ${accessToken}`
+          }
         }
       );
 
       if (response.status === 200) {
         handleClose();
-        toast.success("updated successfully",toastOption);
+        toast.success("updated successfully", toastOption);
         handleClose();
       } else {
         alert("error in updating");
       }
     } catch (error) {
       console.log(error);
-      toast.error("error in updating",toastOption);
+      toast.error("error in updating", toastOption);
     }
   };
 
@@ -155,7 +162,7 @@ const AddressModal = ({ context, setContext, data }) => {
         handleClose();
       }}
     >
-    <Toaster/>
+      <Toaster />
       <div
         className="relative bg-white w-[439.4px] z-30 m-auto pt-2 flex flex-col rounded-[3px] animate-fadeIn"
         onClick={(e) => {
