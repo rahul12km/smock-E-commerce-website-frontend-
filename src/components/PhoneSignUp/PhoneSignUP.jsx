@@ -29,7 +29,7 @@ const PhoneSignUP = () => {
     );
     recaptchaVerifier.render();
 
-    return signInWithPhoneNumber(auth, number, recaptchaVerifier);
+    // return signInWithPhoneNumber(auth, number, recaptchaVerifier);
   };
 
   const onSignup = async () => {

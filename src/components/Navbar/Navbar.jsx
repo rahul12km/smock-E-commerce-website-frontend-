@@ -11,11 +11,14 @@ import { useNavigate } from "react-router-dom";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
+import LogindropOption from "../DropOptions/LogindropOption";
 
 function Navbar() {
   const [option, setOption] = useState("");
   const navigate = useNavigate();
   const data = ["men", "women", "kids", "sports", "sales"];
+  const [dropLogin, setDropLogin] = useState(false);
+
   return (
     <>
       {/*---------------------------------------------- navbar --------------------------------------------*/}
@@ -79,10 +82,21 @@ function Navbar() {
 
           <div className=" flex flex-grow justify-end gap-2 pt-[3px]">
             <ul className=" flex flex-row gap-5 pt-3  pr-10">
-              <li className="hover:text-gray-500 text-[12px] flex flex-col  items-center cursor-pointer">
+              <li
+                className="hover:text-gray-500 text-[12px] flex flex-col  items-center cursor-pointer pb-2 hover:border-b-[3px] hover:border-[#5a49e3]"
+                onMouseEnter={() => setDropLogin(true)}
+                onMouseLeave={() => setDropLogin(false)}
+              >
                 {" "}
                 <PersonOutlineIcon />
                 Profile
+                <div
+                  className={`${
+                    dropLogin === true ? "absolute" : "hidden"
+                  } bg-white z-[20] top-[70px] p-4 shadow-lg`}
+                >
+                  <LogindropOption />
+                </div>
               </li>
               <li
                 className="hover:text-gray-500 text-[12px] flex flex-col items-center cursor-pointer"

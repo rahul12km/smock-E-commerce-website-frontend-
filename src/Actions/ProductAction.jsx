@@ -1,16 +1,19 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
+/* eslint-disable no-constant-condition */
 import { backendAPI } from "../API";
+import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 export const getProducts = createAsyncThunk(
   "products/getAllProducts",
   async () => {
     try {
-      const { data } = await axios.get(`${backendAPI}/api/products/all`);
+      const response = await axios.get(`${backendAPI}/api/products/all`);
 
-      return data;
+      // Return the data from the response
+      return response.data;
     } catch (err) {
-      console.error(err);
+      console.error("Error fetching data:", err);
+      throw err;
     }
   }
 );

@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { backendAPI } from "../../API";
 import AddressModal from "../../components/modal/AddressModal";
-import { Toaster, toast } from 'react-hot-toast';
-
+import { Toaster, toast } from "react-hot-toast";
 
 const Address = ({ setProgress }) => {
   const [selectedAddress, setSelectedAddress] = useState({});
@@ -15,10 +14,10 @@ const Address = ({ setProgress }) => {
 
   const [editData, setEditData] = useState({});
 
-  const toastOption={
+  const toastOption = {
     duration: 4000,
-    position: 'top-center',
-  }
+    position: "top-center",
+  };
   const fetchAddress = async () => {
     try {
       const { data } = await axios.get(`${backendAPI}/api/address/all`, {
@@ -56,17 +55,16 @@ const Address = ({ setProgress }) => {
 
   const handleDelete = async (id) => {
     try {
-   
       const res = await axios.delete(`${backendAPI}/api/address/delete`, {
         params: {
           addressId: id,
           subId: "661236440774da34ed2307cc",
         },
       });
-  
+
       if (res.status === 200) {
         setaddressData((prev) => prev.filter((item) => item._id !== id));
-        toast.success("Deleted",toastOption)
+        toast.success("Deleted", toastOption);
       }
     } catch (error) {
       console.log(error);
@@ -75,7 +73,7 @@ const Address = ({ setProgress }) => {
 
   return (
     <>
-    <Toaster/>
+      <Toaster />
       {display.address === true ? (
         <AddressModal context={display} setContext={setDisplay} data={null} />
       ) : (
@@ -136,7 +134,7 @@ const Address = ({ setProgress }) => {
                   <p
                     className="border-[1px] border-black  text-[#282c3f] rounded-[4px] text-[12px] py-1 px-2 font-[700] flex items-center justify-center  cursor-pointer hover:border-[#5a49e3] hover:text-[#5a49e3]"
                     onClick={() => {
-                      handleDelete(address._id);
+                      handleDelete(address?._id);
                     }}
                   >
                     REMOVE
