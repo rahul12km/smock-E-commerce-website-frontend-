@@ -21,7 +21,7 @@ const Women = ({ setProgress }) => {
     if (product.status === "loading") {
       setProgress(40);
     }
-    if (product.status === "idle") {
+    if (product.status === "fulfilled") {
       setProgress(100);
       console.log(product);
 
@@ -38,7 +38,7 @@ const Women = ({ setProgress }) => {
     setMenData(data);
   }, [data]);
 
-  if (product?.status === "idle") {
+  if (product?.status === "fulfilled") {
     return (
       <div>
         <Layout Data={menData} />

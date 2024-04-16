@@ -13,11 +13,11 @@ import { useSelector, useDispatch } from "react-redux";
 import { fetchCart } from "../../Actions/CartAction";
 import PincodeModal from "../../components/modal/PincodeModal";
 import CouponModal from "../../components/modal/CouponModal";
-
+import Cookies from "js-cookie";
 const Cart = ({ setProgress }) => {
   const [empty, setEmpty] = useState(false);
   const navigate = useNavigate();
-
+  const accessToken = Cookies.get("access_token");
   const [coupon, setCoupon] = useState(false);
   const [pin, setPin] = useState(false);
   const [avlCoupon, setAvlCoupon] = useState([]);
@@ -36,6 +36,11 @@ const Cart = ({ setProgress }) => {
     dispatch(fetchCart());
   }, []);
 
+  useEffect(() => {
+    if (!accessToken) {
+      navigate("/login");
+    }
+  }, []);
   const purchasePrice = useMemo(() => {
     return cartData?.reduce(
       (total, item) => total + item.productId.purchasePrice * item.count,
@@ -288,8 +293,9 @@ const Cart = ({ setProgress }) => {
                       ₹ {retailPrice}
                     </p>
                   </div>
-                  <button className="h-[40px] w-[270px] text-[14px] font-semibold text-white bg-[#5a49e3] flex items-center justify-center  cursor-pointer"
-                  onClick={()=>navigate("/checkout/address")}
+                  <button
+                    className="h-[40px] w-[270px] text-[14px] font-semibold text-white bg-[#5a49e3] flex items-center justify-center  cursor-pointer"
+                    onClick={() => navigate("/checkout/address")}
                   >
                     PLACE ORDER
                   </button>

@@ -8,25 +8,35 @@ import { ListItem } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { addCart } from "../../Actions/CartAction";
 import { addWishlist } from "../../Actions/WishlistAction";
-
+import Cookies from "js-cookie";
+import { Toaster, toast } from "react-hot-toast";
 const DetailPage = ({ setProgress }) => {
+  const accessToken = Cookies.get("access_token");
   const { productId } = useParams();
   const [product, setProduct] = useState();
   const [size, setSize] = useState("");
   const dispatch = useDispatch();
+  const toastOption = {
+    duration: 4000,
+    position: "top-center",
+  };
 
   //==============================================================redux actions============================================================//
   const addtocartfnc = () => {
-    if (size !== "") {
-      const body = {
-        productId: productId,
-        userId: "65f57ed8b82e228293243a64",
-        count: 1,
-        size: size,
-      };
-      dispatch(addCart(body));
+    if (!accessToken) {
+      toast.success("Login Please");
     } else {
-      alert("Please select size");
+      if (size !== "") {
+        const body = {
+          productId: productId,
+          count: 1,
+          size: size,
+        };
+        dispatch(addCart(body));
+        toast.success("Added to Cart", toastOption);
+      } else {
+        toast.success("Select Size", toastOption);
+      }
     }
   };
 
@@ -56,6 +66,7 @@ const DetailPage = ({ setProgress }) => {
   //===============================================================html body==========================================//
   return (
     <div className="container  ">
+      <Toaster />
       <div className=" product-image  flex flex-row pl-5 gap-2 mt-[50px]">
         <div className="flex flex-row w-[900px] flex-wrap gap-3 ">
           {product?.image?.map((img, i) => (

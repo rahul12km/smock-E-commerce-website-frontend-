@@ -1,11 +1,14 @@
 // export default Wishlist;
-import React, { useEffect, useState } from "react";
+import React, { useDebugValue, useEffect, useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import { useSelector, useDispatch } from "react-redux";
 import { addCart } from "../../Actions/CartAction";
 import { fetchWishlist, removeWishlist } from "../../Actions/WishlistAction";
-
+import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 const Wishlist = ({ setProgress }) => {
+  const navigate = useNavigate();
+  const accessToken = Cookies.get("access_token");
   const { data: WishlistData, loading } = useSelector(
     (state) => state.wishlist
   );
@@ -16,6 +19,12 @@ const Wishlist = ({ setProgress }) => {
       setProgress(100);
     }
   }, [WishlistData]);
+
+  useEffect(() => {
+    if (!accessToken) {
+      navigate("/login");
+    }
+  }, []);
 
   useEffect(() => {
     dispatch(fetchWishlist());
