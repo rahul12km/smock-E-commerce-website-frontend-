@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../../components/Navbar/Navbar";
 import Herobanner from "../../components/Herobanner/Herobanner";
 import Banner from "../../components/Banner/Banner";
@@ -13,6 +13,8 @@ import online from "../../assets/onlinesupport.svg";
 import ad1 from "../../assets/ad1.png";
 import ad2 from "../../assets/ad2.jpg";
 import MenOption from "../../components/DropOptions/MenOption";
+
+
 function Home() {
   return (
     <div>

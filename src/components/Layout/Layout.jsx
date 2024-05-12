@@ -9,9 +9,11 @@ import { addCart } from "../../Actions/CartAction";
 import { useDispatch } from "react-redux";
 import { addWishlist, fetchWishlist } from "../../Actions/WishlistAction";
 import LazyLoad from "react-lazyload";
-import { Toaster, toast } from 'react-hot-toast';
+import { Toaster, toast } from "react-hot-toast";
+import Cookies from "js-cookie";
 
 const Layout = ({ Data }) => {
+  const accessToken = Cookies.get("access_token");
   const [Typelist, setTypelist] = useState([]);
   const [wish, setWish] = useState(false);
   const [colourList, setColourList] = useState([]);
@@ -26,10 +28,10 @@ const Layout = ({ Data }) => {
     { id: 4, min: 5000, max: 10000 },
   ];
 
-  const toastOption={
+  const toastOption = {
     duration: 4000,
-    position: 'top-center',
-  }
+    position: "top-center",
+  };
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -130,14 +132,17 @@ const Layout = ({ Data }) => {
   //================================================================Adding function to cart and wishlist =====================================//
 
   const addtocartfnc = (id) => {
-    const body = {
-      productId: id,
-      count: 1,
-      size: "",
-    };
-    dispatch(addCart(body));
-    toast.success("Added to Cart",toastOption)
-
+    if (!accessToken) {
+      toast.success("Login Please", toastOption);
+    } else {
+      const body = {
+        productId: id,
+        count: 1,
+        size: "",
+      };
+      dispatch(addCart(body));
+      toast.success("Added to Cart", toastOption);
+    }
   };
 
   const addtoWishlistfnc = (id) => {
@@ -146,7 +151,7 @@ const Layout = ({ Data }) => {
       userId: "661cd858ffeb2b9cdae21913",
     };
     dispatch(addWishlist(body));
-    toast.success("Added to Wishlist",toastOption)
+    toast.success("Added to Wishlist", toastOption);
   };
 
   //==========================================================UseEffects=========================================================//
@@ -160,7 +165,7 @@ const Layout = ({ Data }) => {
 
   return (
     <div className="main-box flex flex-col">
-    <Toaster/>
+      <Toaster />
       {/* <Navbar /> */}
 
       <div className="flex flex-row  justify-end py-3 mr-[50px]">
@@ -377,73 +382,76 @@ const Layout = ({ Data }) => {
           <div className="item-cards grid grid-cols-4  gap-x-7 gap-y-10 ">
             {sortFnc(data)?.map((item, i) => (
               <LazyLoad key={item._id} height={200} offset={100}>
-              <div key={item._id} className="item-card flex flex-col group animate-fadeIn ">
-                <div className="img-box h-[300px] relative overflow-hidden ">
-                  <img
-                    src={item.image[0]}
-                    alt="Loading"
-                    className="h-full w-full object-cover"
-                    onClick={() => {
-                      navigate(`/details/${item._id}`);
-                    }}
-                  />
-                  <div className=" absolute flex bg-white bottom-[-20%] border-t-[1px] border-b-[1px] border-[#5a49e3] w-full h-[40px]  transition-transform duration-[400ms] transform group-hover:translate-y-[-150%]">
-                    <div
-                      className="w-[50%] flex justify-center items-center border-r-[1px] border-[#5a49e3] hover:text-[#5a49e3] cursor-pointer "
-                      onClick={() => {
-                        addtoWishlistfnc(item._id);
-                        setWish(!wish);
-                      }}
-                    >
-                      {" "}
-                      {wish !== true ? (
-                        <>
-                          <FavoriteBorderIcon className="" />
-                        </>
-                      ) : (
-                        <>
-                          <FavoriteIcon className=" text-[#5a49e3]" />
-                        </>
-                      )}
-                    </div>
-                    <div
-                      className="w-[50%] flex justify-center items-center hover:text-[#5a49e3] cursor-pointer"
-                      onClick={() => addtocartfnc(item._id)}
-                    >
-                      <ShoppingCartIcon />
-                    </div>
-                  </div>
-                </div>
                 <div
-                  className="price-box h-[82px] bg-gray-100 pl-3 pt-2"
-                  onClick={() => {
-                    navigate("/details");
-                  }}
+                  key={item._id}
+                  className="item-card flex flex-col group animate-fadeIn "
                 >
-                  <h3 className="text-[15px] font-bold">{item?.brand}</h3>
-                  <p className="text-[13px] text-[#535665]">{item?.name}</p>
-                  <div className="flex mt-1 gap-2 pb-2 ">
-                    <p className=" font-bold text-[14px]">
-                      {" "}
-                      ₹ {item?.retailPrice}
-                    </p>
-                    <p className="text-[#7e818c] line-through text-[14px]">
-                      ₹ {item?.purchasePrice}
-                    </p>
-                    <p className="text-[#ff905a] text-[13px]">
-                      (
-                      <span>
-                        {Math.floor(
-                          ((item?.purchasePrice - item?.retailPrice) /
-                            item?.purchasePrice) *
-                            100
+                  <div className="img-box h-[300px] relative overflow-hidden ">
+                    <img
+                      src={item.image[0]}
+                      alt="Loading"
+                      className="h-full w-full object-cover"
+                      onClick={() => {
+                        navigate(`/details/${item._id}`);
+                      }}
+                    />
+                    <div className=" absolute flex bg-white bottom-[-20%] border-t-[1px] border-b-[1px] border-[#5a49e3] w-full h-[40px]  transition-transform duration-[400ms] transform group-hover:translate-y-[-150%]">
+                      <div
+                        className="w-[50%] flex justify-center items-center border-r-[1px] border-[#5a49e3] hover:text-[#5a49e3] cursor-pointer "
+                        onClick={() => {
+                          addtoWishlistfnc(item._id);
+                          setWish(!wish);
+                        }}
+                      >
+                        {" "}
+                        {wish !== true ? (
+                          <>
+                            <FavoriteBorderIcon className="" />
+                          </>
+                        ) : (
+                          <>
+                            <FavoriteIcon className=" text-[#5a49e3]" />
+                          </>
                         )}
-                      </span>
-                      % OFF)
-                    </p>
+                      </div>
+                      <div
+                        className="w-[50%] flex justify-center items-center hover:text-[#5a49e3] cursor-pointer"
+                        onClick={() => addtocartfnc(item._id)}
+                      >
+                        <ShoppingCartIcon />
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    className="price-box h-[82px] bg-gray-100 pl-3 pt-2"
+                    onClick={() => {
+                      navigate("/details");
+                    }}
+                  >
+                    <h3 className="text-[15px] font-bold">{item?.brand}</h3>
+                    <p className="text-[13px] text-[#535665]">{item?.name}</p>
+                    <div className="flex mt-1 gap-2 pb-2 ">
+                      <p className=" font-bold text-[14px]">
+                        {" "}
+                        ₹ {item?.retailPrice}
+                      </p>
+                      <p className="text-[#7e818c] line-through text-[14px]">
+                        ₹ {item?.purchasePrice}
+                      </p>
+                      <p className="text-[#ff905a] text-[13px]">
+                        (
+                        <span>
+                          {Math.floor(
+                            ((item?.purchasePrice - item?.retailPrice) /
+                              item?.purchasePrice) *
+                              100
+                          )}
+                        </span>
+                        % OFF)
+                      </p>
+                    </div>
                   </div>
                 </div>
-              </div>
               </LazyLoad>
             ))}
           </div>

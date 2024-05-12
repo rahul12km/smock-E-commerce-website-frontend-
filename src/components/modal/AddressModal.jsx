@@ -5,7 +5,7 @@ import axios from "axios";
 import { backendAPI } from "../../API";
 import { useNavigate } from "react-router-dom";
 import { Toaster, toast } from "react-hot-toast";
-import Cookies from 'js-cookie';
+import Cookies from "js-cookie";
 const AddressModal = ({ context, setContext, data }) => {
   const [pincode, setPincode] = useState("");
   const [isValid, setIsValid] = useState(false);
@@ -21,8 +21,7 @@ const AddressModal = ({ context, setContext, data }) => {
   });
   const pinValid = /^\d{6}$/;
 
-  const accessToken =Cookies.get('access_token');
-  
+  const accessToken = Cookies.get("access_token");
 
   const toastOption = {
     duration: 4000,
@@ -124,8 +123,8 @@ const AddressModal = ({ context, setContext, data }) => {
             addressId: data._id,
           },
           headers: {
-            Authorization: `Bearer ${accessToken}`
-          }
+            Authorization: `Bearer ${accessToken}`,
+          },
         }
       );
 

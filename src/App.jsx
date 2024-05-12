@@ -20,6 +20,7 @@ import CouponModal from "./components/modal/CouponModal";
 import PincodeModal from "./components/modal/PincodeModal";
 import CustomHeader from "./components/CustomHeader/CustomHeader";
 import Address from "./pages/Address/Address";
+import Payment from "./pages/Payment/Payment";
 
 function App() {
   const [progress, setProgress] = useState(0);
@@ -52,6 +53,10 @@ function App() {
             <Route
               path="address"
               element={<Address setProgress={setProgress} />}
+            />
+            <Route
+              path="payment"
+              element={<Payment setProgress={setProgress} />}
             />
           </Route>
 

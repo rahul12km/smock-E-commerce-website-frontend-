@@ -16,7 +16,7 @@ const productSlice = createSlice({
         state.status = "loading";
       })
       .addCase(getProducts.fulfilled, (state, action) => {
-        state.status = "idle";
+        state.status = "fulfilled";
         state.data = action.payload;
       })
       .addCase(getProducts.rejected, (state, action) => {
