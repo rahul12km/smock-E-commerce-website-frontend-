@@ -21,6 +21,7 @@ import PincodeModal from "./components/modal/PincodeModal";
 import CustomHeader from "./components/CustomHeader/CustomHeader";
 import Address from "./pages/Address/Address";
 import Payment from "./pages/Payment/Payment";
+import Order from "./pages/Order/Order";   
 
 function App() {
   const [progress, setProgress] = useState(0);
@@ -58,7 +59,13 @@ function App() {
               path="payment"
               element={<Payment setProgress={setProgress} />}
             />
+            
           </Route>
+
+          <Route
+              path="order"
+              element={<Order />}
+            />
 
           <Route
             path="/login/:id"

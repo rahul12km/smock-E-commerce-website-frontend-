@@ -1,11 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useMemo } from "react";
 import axios from "axios";
 import { backendAPI } from "../../API";
 import AddressModal from "../../components/modal/AddressModal";
 import { Toaster, toast } from "react-hot-toast";
 import Cookies from  "js-cookie"
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const Address = ({ setProgress }) => {
+  const { data: cartData, loading } = useSelector((state) => state.cart);
   const [selectedAddress, setSelectedAddress] = useState({});
   const [addressData, setaddressData] = useState([]);
   const [display, setDisplay] = useState({
@@ -13,9 +16,26 @@ const Address = ({ setProgress }) => {
     address: false,
   });
   const accessToken =Cookies.get('access_token');
-
-
+ const navigate=useNavigate()
+ 
   const [editData, setEditData] = useState({});
+
+
+  const purchasePrice = useMemo(() => {
+    return cartData?.reduce(
+      (total, item) => total + item.productId.purchasePrice * item.count,
+      0
+    );
+  }, [cartData]);
+
+  const retailPrice = useMemo(() => {
+    return cartData?.reduce(
+      (total, item) => total + item.productId.retailPrice * item.count,
+      0
+    );
+  }, [cartData]);
+
+
 
   const toastOption = {
     duration: 4000,
@@ -78,10 +98,19 @@ const Address = ({ setProgress }) => {
     }
   };
 
+  const handleContinue=()=>{
+     if(selectedAddress.length>=1){
+      toast.success("Please select Address", toastOption);
+     }
+     else{ 
+      navigate('/checkout/payment');
+     }
+  }
+
   return (
     <>
       <Toaster />
-      {display.address === true ? (
+      {display.address === true ? ( 
         <AddressModal context={display} setContext={setDisplay} data={null} />
       ) : (
         <></>
@@ -95,7 +124,7 @@ const Address = ({ setProgress }) => {
       ) : (
         <></>
       )}
-      <div className="flex m-auto  mt-4">
+      <div className="flex flex-col m-auto  mt-4">
         <div className="flex flex-col ">
           <p className="text-[#282c3f] text-[18px] font-[600] ">
             Select Delivery Address:
@@ -165,8 +194,20 @@ const Address = ({ setProgress }) => {
             </p>
           </div>
         </div>
-        <div className=""></div>
+        
+        
       </div>
+      <div className="flex absolute bottom-[40px]  w-full items-center justify-center gap-10 ">
+            <div className="price  flex h-[40px] w-auto px-[10px] justify-center items-center">
+              <p className="">
+              <span className="font-bold">Amount</span>: ₹{purchasePrice}
+              </p>
+            </div>
+          <div className="button  flex h-[40px] w-auto px-[10px] justify-center items-center bg-[#5a49e3]  rounded-[4px] cursor-pointer" onClick={handleContinue}>
+                      <span className="text-white ">Continue</span>
+
+           </div>
+        </div>
     </>
   );
 };

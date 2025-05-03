@@ -23,65 +23,107 @@ function Home() {
       <Banner />
       <Carousel />
 
-      <div className="  flex rounded-xl mt-[103px] justify-center relative">
-        <div className="flex flex-col right-60 top-[50%]  absolute text-white  ">
-          <p className="text-[15px] font-bold  mx-auto">STYLE STAT / MARCH</p>
-          <h1 className="text-[42px] font-bold font-sans">Summer Transition</h1>
-          <h3 className="text-[18px] font- font-sans text-pretty mt-3 tracking-wide mx-auto">
-            Bring out the heat this summer
-          </h3>
-          <button className="font-pop bg-white text-black font-bold mt-10 w-[100px] h-[35px] mx-auto hover:bg-[#E6E6E6]  hover:transition ">
-            Shop Now
-          </button>
-        </div>
+      <div className="max-w-[1400px] w-full mx-auto py-10 px-4">
+  {/* ————————————————————————
+       Small screens: text below image
+     ———————————————————————— */}
+  <div className="block md:hidden text-center mb-6">
+    <p className="text-sm font-bold">STYLE STAT / MARCH</p>
+    <h1 className="text-2xl font-bold mt-2">Summer Transition</h1>
+    <h3 className="text-base mt-1">Bring out the heat this summer</h3>
+    <button className="mt-4 bg-white text-black font-bold px-5 py-2 rounded hover:bg-gray-200 transition">
+      Shop Now
+    </button>
+  </div>
 
-        <div className="  w-[70%]  m-auto   bg-cover ">
-          <img className="rounded-xl h-[100%] w-[100%]" src={ad1} alt="" />
-        </div>
+  {/* ————————————————————————
+       Image container (always)
+       + overlay text only on md+
+     ———————————————————————— */}
+  <div className="relative w-full md:w-3/4 mx-auto">
+    <img
+      src={ad1}
+      alt="Summer Transition Banner"
+      className="rounded-2xl w-full h-auto object-cover shadow-2xl ring-2 ring-gray-200"
+    />
+
+    {/* overlay text: hidden on small, shown on md+ */}
+    <div className="hidden md:flex absolute inset-0 items-center justify-end pr-12 text-right text-white">
+      <div className="bg-black bg-opacity-50 p-6 rounded-md">
+        <p className="text-base font-bold">STYLE STAT / MARCH</p>
+        <h1 className="text-4xl font-bold mt-1">Summer Transition</h1>
+        <h3 className="text-lg mt-2">Bring out the heat this summer</h3>
+        <button className="mt-4 bg-white text-black font-bold px-6 py-2 rounded hover:bg-gray-200 transition">
+          Shop Now
+        </button>
       </div>
+    </div>
+  </div>
+</div>
 
-      <div className="  flex rounded-xl mt-[103px] justify-center relative">
-        <div className="flex flex-col left-60 top-[50%]  absolute text-black ">
-          <p className="text-[15px] font-bold  mx-auto">
-            STYLE STAT / FEBRUARY
-          </p>
-          <h1 className="text-[42px] font-bold font-sans">Everyday Elegance</h1>
-          <h3 className="text-[18px] font- font-sans text-pretty mt-3 tracking-wide mx-auto">
-            Wardrobe refresh: basics
-          </h3>
+{/* Everyday Elegance Banner (February) */}
+<div className="max-w-[1400px] w-full mx-auto py-10 px-4">
+  {/* Image container with text overlay */}
+  <div className="relative w-full md:w-3/4 max-w-[1000px] mx-auto">
+    <img
+      className="rounded-xl w-full h-auto object-cover"
+      src={ad2}
+      alt="Everyday Elegance Banner"
+    />
 
-          <button className="font-pop bg-black text-white font-bold mt-10 w-[100px] h-[35px] mx-auto hover:bg-transparent border-2 border-black hover:text-black  hover:transition duration-400 ease-in-out ">
-            Shop Now
-          </button>
-        </div>
-
-        <div className="  w-[70%]  m-auto   bg-cover ">
-          <img className="rounded-xl h-[100%] w-[100%]" src={ad2} alt="" />
-        </div>
+    {/* Text overlay for medium and larger screens */}
+    <div className="hidden md:flex absolute inset-0 items-center justify-start pl-12 text-left text-black">
+      <div className="bg-black bg-opacity-0 p-6 rounded-md">
+        <p className="text-base font-bold">STYLE STAT / FEBRUARY</p>
+        <h1 className="text-4xl font-bold mt-1">Everyday Elegance</h1>
+        <h3 className="text-lg mt-2">Wardrobe refresh: basics</h3>
+        <button className="mt-4 bg-black text-white font-bold px-6 py-2 border-2 border-white hover:bg-transparent hover:text-black transition rounded">
+          Shop Now
+        </button>
       </div>
+    </div>
+  </div>
 
-      <div className="flex flex-row px-20  justify-between   mt-20  py-10 bg-[#F5F7FA]">
-        <div className="flex flex-col items-center ">
-          <img src={delivery} className="h-[60px] w-[70px] mb-4" />
-          <p className="font-bold text-[20px] mb-2">Fast and Free Delivery</p>
-          <p className="text-[#57667e]">Free Delivery on all orders</p>
-        </div>
-        <div className="flex flex-col items-center  ">
-          <img src={payment} alt="" className="h-[60px] w-[70px] mb-4" />
-          <p className="font-bold text-[20px] mb-2">Secure Payment</p>
-          <p className="text-[#57667e]">Secured Payment Integration</p>
-        </div>
-        <div className="flex flex-col items-center  ">
-          <img src={moneyback} alt="" className="h-[60px] w-[70px] mb-4" />
-          <p className="font-bold text-[20px] mb-2">Money Back Guarantee</p>
-          <p className="text-[#57667e]">100% Assured Money back guarantee</p>
-        </div>
-        <div className="flex flex-col items-center ">
-          <img src={online} alt="" className="h-[60px] w-[70px] mb-4" />
-          <p className="font-bold text-[20px] mb-2">Online Support</p>
-          <p className="text-[#57667e]">24x7 Online Support Available</p>
-        </div>
-      </div>
+  {/* Text below image for small screens */}
+  <div className="block md:hidden text-center mt-6">
+    <p className="text-sm font-bold">STYLE STAT / FEBRUARY</p>
+    <h1 className="text-2xl font-bold mt-2">Everyday Elegance</h1>
+    <h3 className="text-base mt-1">Wardrobe refresh: basics</h3>
+    <button className="mt-4 bg-black text-white font-bold px-5 py-2 border-2 border-black hover:bg-transparent hover:text-black transition rounded">
+      Shop Now
+    </button>
+  </div>
+</div>
+
+
+
+
+      <div className="flex flex-col md:flex-row px-6 md:px-20 justify-between gap-10 mt-10 md:mt-20 py-10 bg-[#F5F7FA]">
+  <div className="flex flex-col items-center text-center">
+    <img src={delivery} className="h-[60px] w-[70px] mb-4" />
+    <p className="font-bold text-lg md:text-xl mb-2">Fast and Free Delivery</p>
+    <p className="text-[#57667e] text-sm md:text-base">Free Delivery on all orders</p>
+  </div>
+
+  <div className="flex flex-col items-center text-center">
+    <img src={payment} alt="" className="h-[60px] w-[70px] mb-4" />
+    <p className="font-bold text-lg md:text-xl mb-2">Secure Payment</p>
+    <p className="text-[#57667e] text-sm md:text-base">Secured Payment Integration</p>
+  </div>
+
+  <div className="flex flex-col items-center text-center">
+    <img src={moneyback} alt="" className="h-[60px] w-[70px] mb-4" />
+    <p className="font-bold text-lg md:text-xl mb-2">Money Back Guarantee</p>
+    <p className="text-[#57667e] text-sm md:text-base">100% Assured Money back guarantee</p>
+  </div>
+
+  <div className="flex flex-col items-center text-center">
+    <img src={online} alt="" className="h-[60px] w-[70px] mb-4" />
+    <p className="font-bold text-lg md:text-xl mb-2">Online Support</p>
+    <p className="text-[#57667e] text-sm md:text-base">24x7 Online Support Available</p>
+  </div>
+</div>
+
       <Footer />
     </div>
   );

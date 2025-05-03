@@ -1,12 +1,30 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useMemo } from "react";
 import axios from "axios";
 
 import Cookies from "js-cookie";
 import { backendAPI } from "../../API";
+import { useSelector, useDispatch } from "react-redux";
 
 const Payment = () => {
   const accessToken = Cookies.get("access_token");
   const [subscriber, setSubscriber] = useState(); // Initialize state with null
+  const { data: cartData, loading } = useSelector((state) => state.cart);
+  const [total,setTotal]=useState()
+    
+  const purchasePrice = useMemo(() => {
+    return cartData?.reduce(
+      (total, item) => total + item.productId.purchasePrice * item.count,
+      0
+    );
+  }, [cartData]);
+
+  const retailPrice = useMemo(() => {
+    return cartData?.reduce(
+      (total, item) => total + item.productId.retailPrice * item.count,
+      0
+    );
+  }, [cartData]);
+
   const fetchSubscriber = async () => {
     try {
       const { data } = await axios.get(`${backendAPI}/api/subscribers/`, {
@@ -48,7 +66,7 @@ const Payment = () => {
     } = await axios.post(
       `${backendAPI}/api/checkout`,
       {
-        amount: 2000,
+        amount: retailPrice ||0,
       },
       {
         headers: {
@@ -57,6 +75,7 @@ const Payment = () => {
         },
       }
     );
+
 
     const options = {
       key,

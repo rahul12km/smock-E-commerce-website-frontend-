@@ -81,7 +81,7 @@ const Cart = ({ setProgress }) => {
       {empty === false ? (
         <>
           {/*----------------------------------------------------------------- main div----------------------------------------- */}
-          <div className=" container-box flex">
+          <div className=" container-box flex ">
             <div className="flex flex-row m-auto">
               <div className="flex flex-col ">
                 <div className=" pincode-adder flex pl-5 h-[68px] w-[594px] border-2 border-[#f5f5f6] justify-between mt-10 bg-[#f4f2ff] rounded-sm">
@@ -332,7 +332,7 @@ const Cart = ({ setProgress }) => {
                     navigate("/wishlist");
                   }}
                 > 
-                  ADD ITEMS TO WISHLIST
+                  ADD ITEMS FROM WISHLIST
                 </p>
               </div>
             </div>
