@@ -61,7 +61,7 @@ const Carousel = () => {
 
   return (
     <div className="Carousel-container  ">
-      <div className="title-text  text-black px-[140px] font-bold mt-[50px] text-[40px]">
+      <div className="title-text  text-black px-[140px] font-bold mt-[50px] text-[40px] max-sm:text-[30px] max-sm:px-[90px] max-sm:mt-[30px]">
         Trending this week
       </div>
       <div className="Carousel relative ">
@@ -78,7 +78,7 @@ const Carousel = () => {
           {items?.map((item) => (
             <div
               key={item._id}
-              className="carousel-item  min-w-[300px] border-2 border-gray-400 mx-10 max-sm:h-[250px] max-sm:w-[200px] flex flex-col cursor-pointer shadow-lg rounded-md"
+              className="carousel-item  min-w-[300px] max-sm:min-w-[260px] border-2 border-gray-400 mx-10 max-sm:h-[250px]  max-sm:mx-7 flex flex-col cursor-pointer shadow-lg rounded-md"
               onClick={() => {
                 navigate(`/details/${item._id}`);
               }}
@@ -86,7 +86,7 @@ const Carousel = () => {
               <div className="img">
                 <img
                   src={item.image[0]}
-                  className="h-[250px] w-[100%] object-cover rounded-tl-md rounded-tr-md "
+                  className="h-[250px] w-[100%] object-cover rounded-tl-md rounded-tr-md  "
                 />
               </div>
               <div className="flex flex-col justify-center">
